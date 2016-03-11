@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# kill the old process first (if found).
+pid=`ps gaxu | grep python | grep news_v | grep -v grep | awk '{print $2}'`
+if [ "$pid" ]; then
+  kill "$pid"
+fi
+
+# build the todo file if nothing has effed up the script.
+if [ -x "gen_todo.sh" ]; then
+  ./gen_todo.sh
+fi
+
+# ya' know. things and stuff.
+python news_v.py 2>&1 > news.log &

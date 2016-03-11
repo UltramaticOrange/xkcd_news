@@ -1,0 +1,14 @@
+YouTube:
+  IDs:
+    I Like To Make Stuff: UC6x7GwJxuoABSosgVXDYtTw
+    Make Something: UCtaykeSsGhtn2o2BsPm-rsw
+    Peter Brown: UC3CrzXzBFVqEopj5T1jiRtA
+    Steve Ramsey: UCBB7sYb14uBtk8UqSQYc9-w
+  baseURL: https://www.youtube.com/feeds/videos.xml?channel_id={URL}
+  xpathParse:
+    channel: .//atom:author/atom:name/text()
+    entry: '{http://www.w3.org/2005/Atom}entry'
+    namespace:
+      atom: http://www.w3.org/2005/Atom
+    title: .//atom:title/text()
+    url: .//atom:link/@href

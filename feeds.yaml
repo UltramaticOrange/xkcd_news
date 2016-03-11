@@ -1,0 +1,54 @@
+https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&topic=h&num=3&output=rss:
+  xpathParse:
+    stripHTML: true
+    item: '/rss/channel/item'
+    namespace: 
+      re: http://exslt.org/regular-expressions
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    image: re:match(.//description/text(), 't[0-9].gstatic.com/images\?[^\">]+', 'g')/text()
+
+http://rss.cnn.com/rss/cnn_topstories.rss:
+  xpathParse:
+    stripHTML: true
+    item: '/rss/channel/item'
+    namespace:
+      yahoo: http://search.yahoo.com/mrss/
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    image: .//yahoo:thumbnail/@url
+
+http://feeds.bbci.co.uk/news/rss.xml?edition=us:
+  xpathParse:
+    stripHTML: true
+    item: '/rss/channel/item'
+    namespace:
+      yahoo: http://search.yahoo.com/mrss/
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    image: .//yahoo:thumbnail/@url
+
+http://feeds.nbcnews.com/feeds/topstories:
+  xpathParse:
+    stripHTML: true
+    item: '/rss/channel/item'
+    namespace:
+      yahoo: http://search.yahoo.com/mrss/
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    image: .//yahoo:thumbnail/@url
+
+http://america.aljazeera.com/content/ajam/articles.rss:
+  xpathParse:
+    stripHTML: true
+    item: '/rss/channel/item'
+    namespace:
+      purl: http://purl.org/dc/elements/1.1/
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    image: .//enclosure/@url

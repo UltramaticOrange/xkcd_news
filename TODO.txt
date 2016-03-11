@@ -1,0 +1,30 @@
+
+news_consts.py:
+
+
+news_c.py:
+# TODO: xkcd_news:__init__: handle being unable to open a file
+# TODO: xkcd_news:__init__: handle being unable to read a file
+# TODO: xkcd_news:__init__: handle being unable to parse yaml/syntax error
+
+
+news_m.py:
+# TODO: pull in the publication date
+# TODO: news_feed.__init__: handle errors from open()
+# TODO: news_feed.__init__: I expect that read() can throw errors.
+# TODO: news_feed.__init__: handle errors from yaml.load
+# TODO: news_feed.__init__: handle authenticated proxy nonsense.
+# TODO: news_feed.__init__: handle errors from requests.get
+# TODO: news_feed.__init__: handle errors from etree.fromstring
+# TODO: news_feed._safe_xpath: handle whatever errors lxml.etree.xpath throws when there's a syntax mistake in the path.
+# TODO: news_feed._safe_xpath: detect and transform text encoding instead of throwing stuff out.
+# TODO: _story.HTML: deprecate/remove. Project is mature enough to move this logic to the viewer file (news_v.py)
+# TODO: xkcd_news:__init__: handle being unable to open a file
+
+
+news_v.py:
+# TODO: news: pre-fetch, resize and base64 the images so we can easily toss them out if they 404 (I'm looking at YOU, Al Jazeera...)
+# TODO: news: don't use story.HTML() to generate formatting. Let's read an HTML doc and give it some fancy CSS.
+# TODO: Take args if we just want to dump to screen for testing. 
+
+
