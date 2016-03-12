@@ -25,8 +25,7 @@ def image64(url, imgTag=False): # 'img' is abbriviated to reflect the html <img 
   # if the image is larger than a 125x125 thumbnail then resize it
   if imageObj.size[0] > C.IMG_MAX_SIZE or imageObj.size[1] > C.IMG_MAX_SIZE:
     # TODO: image64: handle errors 
-    newSize = ((C.IMG_MAX_SIZE*imageObj.size[0])/imageObj.size[1], C.IMG_MAX_SIZE) if imageObj.size[0] <= imageObj.size[1] else (C.IMG_MAX_SIZE, (C.IMG_MAX_SIZE*imageObj.size[1])/imageObj.size[0])
-    imageObj.thumbnail(newSize, Image.ANTIALIAS)
+    imageObj.thumbnail((C.IMG_MAX_SIZE, C.IMG_MAX_SIZE), Image.ANTIALIAS)
 
     fakeFile = StringIO() # a file-like object to hold the data in memory ... because PIL is an asshole that won't work with strings.
     imageObj.save(fakeFile, imageType.upper())
