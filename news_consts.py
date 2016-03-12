@@ -5,6 +5,7 @@ class C(object):
   # used in python
   FEEDS_FILE = 'feeds.yaml'
   SUBS_FILE = 'substitutions.yaml'
+  HTML_TEMPLATE = 'template.html'
 
   # used in yaml conig file
   NAMESPACE = 'namespace'
@@ -17,3 +18,21 @@ class C(object):
   XP_IMAGE = 'image'
 
   STRIP_HTML_RE = re.compile('<[^>]+>', flags=re.I)
+
+  # used in the presentation layer (template.html)
+  HTML_TITLE = 'TITLE'
+  HTML_BODY = 'BODY'
+
+  # HTML class identifiers for css styling
+  # <wrapper div><title div></title div><img /><body div></body div></wrapper div>
+  STORY_WRAPPER = 'wrapper' # div that includes image, headline, and text
+  STORY_TITLE = 'title' # div that contains just the headline
+  STORY_IMAGE = 'image' # img tag that does not contain the immense volume of your mom
+  STORY_BODY = 'body' # just the text ..... that does not contain the immense volume of your mom
+
+  # This is probably a step too far, but \/\/hutevs.
+  CLASS = 'CLASS'
+  CONTENT = 'CONTENT'
+
+  HTML_DIV = '<div class="{%s}">{%s}</div>'%(CLASS, CONTENT)
+  HTML_IMG = '<img class="{%s}" src="{%s}" />'%(CLASS, CONTENT)
