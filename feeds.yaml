@@ -40,15 +40,26 @@ http://feeds.nbcnews.com/feeds/topstories:
     title: .//title/text()
     url: .//link/text()
     body: .//description/text()
-    image: .//yahoo:thumbnail/@url
+    #image: .//yahoo:thumbnail/@url
+    image: /rss/channel/image/url/text()
 
-http://america.aljazeera.com/content/ajam/articles.rss:
+http://www.aljazeera.com/xml/rss/all.xml:
+  xpathParse:
+    stripHTML: false
+    item: '/rss/channel/item'
+    namespace: {}
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    image: /rss/channel/image/url/text()
+
+http://feeds.abcnews.com/abcnews/topstories:
   xpathParse:
     stripHTML: true
     item: '/rss/channel/item'
     namespace:
-      purl: http://purl.org/dc/elements/1.1/
+      yahoo: http://search.yahoo.com/mrss/
     title: .//title/text()
     url: .//link/text()
     body: .//description/text()
-    image: .//enclosure/@url
+    image: .//yahoo:thumbnail[@width="992"]/@url

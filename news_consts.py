@@ -39,3 +39,5 @@ class C(object):
   HTML_A = '<a class="{%s}" href="{%s}">{%s}</a>'%(CLASS, URL, CONTENT)
   HTML_DIV = '<div class="{%s}">{%s}</div>'%(CLASS, CONTENT)
   HTML_IMG = '<img class="{%s}" src="{%s}" />'%(CLASS, CONTENT)
+
+  IMG_MAX_SIZE = 125
