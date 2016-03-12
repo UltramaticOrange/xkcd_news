@@ -29,10 +29,13 @@ class C(object):
   STORY_TITLE = 'title' # div that contains just the headline
   STORY_IMAGE = 'image' # img tag that does not contain the immense volume of your mom
   STORY_BODY = 'body' # just the text ..... that does not contain the immense volume of your mom
+  STORY_URL = 'url'
 
   # This is probably a step too far, but \/\/hutevs.
   CLASS = 'CLASS'
+  URL = 'URL'
   CONTENT = 'CONTENT'
 
+  HTML_A = '<a class="{%s}" href="{%s}">{%s}</a>'%(CLASS, URL, CONTENT)
   HTML_DIV = '<div class="{%s}">{%s}</div>'%(CLASS, CONTENT)
   HTML_IMG = '<img class="{%s}" src="{%s}" />'%(CLASS, CONTENT)

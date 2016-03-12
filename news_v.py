@@ -21,6 +21,7 @@ def news():
     for story in site:
       body = C.HTML_DIV.format(**{C.CLASS:C.STORY_BODY, C.CONTENT:story.body})
       title = C.HTML_DIV.format(**{C.CLASS:C.STORY_TITLE, C.CONTENT:story.title})
+      title = C.HTML_A.format(**{C.CLASS:C.STORY_TITLE, C.URL:story.url, C.CONTENT:title})
       image = C.HTML_IMG.format(**{C.CLASS:C.STORY_IMAGE, C.CONTENT:story.image})
       htmlStory = C.HTML_DIV.format(**{C.CLASS:C.STORY_WRAPPER, C.CONTENT:title+image+body})
       html += htmlStory
