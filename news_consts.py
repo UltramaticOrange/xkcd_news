@@ -15,6 +15,7 @@ class C(object):
   XP_TITLE = 'title'
   XP_URL = 'url'
   XP_BODY = 'body'
+  XP_DATE = 'date'
   XP_IMAGE = 'image'
 
   STRIP_HTML_RE = re.compile('<[^>]+>', flags=re.I)

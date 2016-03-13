@@ -47,6 +47,7 @@ def news():
 
   html = ''
   news = xkcd_news()
+  sortable = {}
   for site in news:
     for story in site:
       body = C.HTML_DIV.format(**{C.CLASS:C.STORY_BODY, C.CONTENT:story.body})
@@ -54,7 +55,15 @@ def news():
       title = C.HTML_A.format(**{C.CLASS:C.STORY_TITLE, C.URL:story.url, C.CONTENT:title})
       image = C.HTML_IMG.format(**{C.CLASS:C.STORY_IMAGE, C.CONTENT:image64(story.image)}) if story.image else ''
       htmlStory = C.HTML_DIV.format(**{C.CLASS:C.STORY_WRAPPER, C.CONTENT:title+image+body})
-      html += htmlStory
+      #html += htmlStory
+
+      if story.date in sortable:
+        sortable[story.date].append(htmlStory)
+      else:
+        sortable[story.date] = [htmlStory]
+
+  for key in sorted(sortable):
+    html += ''.join(sortable[key])
 
   # TODO: handle bad formatting in the template (read: someone didn't use {{ and }} in CSS)
   return htmlTemplate.format(**{C.HTML_BODY:html, C.HTML_TITLE:'your mom is a hoe bag, lulz.'})

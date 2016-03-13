@@ -1,8 +1,10 @@
 import re
 import yaml
+import arrow
 import requests
 from lxml import etree
 from news_consts import C
+from dateutil import parser # I'd rather just import dateutil and call dateutil.parser.parse(), but python has a hard time finding parser. Old-style class, maybe?
 
 # TODO: pull in the publication date
 
@@ -17,16 +19,18 @@ class news_feed(list):
     elem = etree.fromstring(result.content) # TODO: news_feed.__init__: handle errors from etree.fromstring
 
     for e in elem.xpath(xpathConfig[C.XPATH_CONFIG][C.ITEM_ELEM]):
+      # REMINDER! You overrode the append method.
       self.append(*self._parse(e, xpathConfig[C.XPATH_CONFIG]))
 
   def _parse(self, e, xpathConfig):
     url = self._safe_xpath(e, xpathConfig[C.XP_URL], xpathConfig[C.NAMESPACE])
     title = self._safe_xpath(e, xpathConfig[C.XP_TITLE], xpathConfig[C.NAMESPACE])
     body = self._safe_xpath(e, xpathConfig[C.XP_BODY], xpathConfig[C.NAMESPACE])
+    date = self._safe_xpath(e, xpathConfig[C.XP_DATE], xpathConfig[C.NAMESPACE])
     image = self._safe_xpath(e, xpathConfig[C.XP_IMAGE], xpathConfig[C.NAMESPACE])
 
     body = C.STRIP_HTML_RE.sub('', body) if xpathConfig[C.STRIP_HTML] else body
-    return url, title, body, image
+    return url, title, body, date, image
 
   def _safe_xpath(self, e, xp, ns):
     try:
@@ -39,16 +43,17 @@ class news_feed(list):
     return item[0].encode('ascii', 'ignore') if item else None
 
   # override the append function
-  def append(self, url, title, body, image=None):
-    return super(news_feed, self).append(self._story(url, title, body, image, self._transformations))
+  def append(self, url, title, body, date, image=None):
+    return super(news_feed, self).append(self._story(url, title, body, date, image, self._transformations))
   
   ### nested class
   class _story(object):
-    def __init__(self, url, title, body, image, transformations):
+    def __init__(self, url, title, body, date, image, transformations):
       self.raw = news_feed._raw(title, body) # not sure if this is the correct syntax for accessing an outter's inner class (sibling class?).
       self.url = url
       self.title = self._transform(title, transformations)
       self.body = self._transform(body, transformations)
+      self.date = arrow.get(parser.parse(date)) # TODO: _story.__init__: arrow.get and dateutil.parser.parse probably can throw all sorts of errors that need handled.
       self.image = image if not image or image.lower().startswith('http') else 'http://'+image
 
     def _transform(self, text, transformations):
@@ -56,17 +61,11 @@ class news_feed(list):
         text = re.sub(t, r, text, flags=re.I)
       return text
 
-    # TODO: _story.HTML: deprecate/remove. Project is mature enough to move this logic to the viewer file (news_v.py)
-    def HTML(self):
-      imageHTML = '<img src="{IMAGE}" style="float: left;">'.format(IMAGE=self.image) if self.image else ''
-      return '<div style="clear: left;"><p>{IMAGE}<h3><a href="{HREF}">{TITLE}</a></h3>{BODY}</p></div>'.format(IMAGE=imageHTML, HREF=self.url, TITLE=self.title, BODY=self.body)
-
   ### nested class
   class _raw(object):
     def __init__(self, title, body):
       self.title = title
       self.body = body
-
 
 class xkcd_news(list):
   def __init__(self):

@@ -18,7 +18,7 @@ news_m.py:
 # TODO: news_feed.__init__: handle errors from etree.fromstring
 # TODO: news_feed._safe_xpath: handle whatever errors lxml.etree.xpath throws when there's a syntax mistake in the path.
 # TODO: news_feed._safe_xpath: detect and transform text encoding instead of throwing stuff out.
-# TODO: _story.HTML: deprecate/remove. Project is mature enough to move this logic to the viewer file (news_v.py)
+# TODO: _story.__init__: arrow.get and dateutil.parser.parse probably can throw all sorts of errors that need handled.
 # TODO: xkcd_news:__init__: handle being unable to open a file
 
 
@@ -33,5 +33,8 @@ news_v.py:
 # TODO: news: handle being unable to read the template
 # TODO: handle bad formatting in the template (read: someone didn't use {{ and }} in CSS)
 # TODO: Take args if we just want to dump to screen for testing. 
+
+
+rss_inspector.py:
 
 

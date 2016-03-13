@@ -1,4 +1,4 @@
-https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&topic=h&num=3&output=rss:
+https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&topic=h&num=10&output=rss:
   xpathParse:
     stripHTML: true
     item: '/rss/channel/item'
@@ -7,6 +7,7 @@ https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&topic=h&num=3&output=rss:
     title: .//title/text()
     url: .//link/text()
     body: .//description/text()
+    date: .//pubDate/text()
     image: re:match(.//description/text(), 't[0-9].gstatic.com/images\?[^\">]+', 'g')/text()
 
 http://rss.cnn.com/rss/cnn_topstories.rss:
@@ -18,6 +19,7 @@ http://rss.cnn.com/rss/cnn_topstories.rss:
     title: .//title/text()
     url: .//link/text()
     body: .//description/text()
+    date: .//pubDate/text()
     image: .//yahoo:thumbnail/@url
 
 http://feeds.bbci.co.uk/news/rss.xml?edition=us:
@@ -29,6 +31,7 @@ http://feeds.bbci.co.uk/news/rss.xml?edition=us:
     title: .//title/text()
     url: .//link/text()
     body: .//description/text()
+    date: .//pubDate/text()
     image: .//yahoo:thumbnail/@url
 
 http://feeds.nbcnews.com/feeds/topstories:
@@ -40,6 +43,7 @@ http://feeds.nbcnews.com/feeds/topstories:
     title: .//title/text()
     url: .//link/text()
     body: .//description/text()
+    date: .//pubDate/text()
     #image: .//yahoo:thumbnail/@url
     image: /rss/channel/image/url/text()
 
@@ -51,6 +55,7 @@ http://www.aljazeera.com/xml/rss/all.xml:
     title: .//title/text()
     url: .//link/text()
     body: .//description/text()
+    date: .//pubDate/text()
     image: /rss/channel/image/url/text()
 
 http://feeds.abcnews.com/abcnews/topstories:
@@ -62,4 +67,5 @@ http://feeds.abcnews.com/abcnews/topstories:
     title: .//title/text()
     url: .//link/text()
     body: .//description/text()
+    date: .//pubDate/text()
     image: .//yahoo:thumbnail[@width="992"]/@url
