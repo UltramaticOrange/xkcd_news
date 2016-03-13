@@ -31,6 +31,7 @@ news_v.py:
 # TODO: news: don't use story.HTML() to generate formatting. Let's read an HTML doc and give it some fancy CSS.
 # TODO: news: handle being unable to open the template
 # TODO: news: handle being unable to read the template
+# TODO: news: make date an item in consts so it's configurable-ish.
 # TODO: handle bad formatting in the template (read: someone didn't use {{ and }} in CSS)
 # TODO: Take args if we just want to dump to screen for testing. 
 
