@@ -4,6 +4,7 @@ import requests
 from   PIL import Image
 from   flask import Flask
 from   news_consts import C
+from   memoize import memoize
 from   news_c import xkcd_news
 from   base64 import b64encode
 from   StringIO import StringIO
@@ -12,6 +13,7 @@ app = Flask(__name__)
 
 # TODO: image64: would be good to memoize this. Python 2.7 does not have one in functools, so a custom decorator will be needed
 # TODO: image64: don't rely on onthe C.IMG_MAX_SIZE -- optional params to allow the user to specify the size or to skip the resize.
+@memoize()
 def image64(url, imgTag=False): # 'img' is abbriviated to reflect the html <img /> tag.
   # TODO: image64: proxy config
   response = requests.get(url)
@@ -74,5 +76,5 @@ def main():
 
 if __name__ == "__main__":
     # TODO: Take args if we just want to dump to screen for testing. 
-    app.run(host='0.0.0.0')
+    app.run(host='127.0.0.1', threaded=True)
     #main()

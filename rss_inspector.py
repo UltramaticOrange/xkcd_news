@@ -16,7 +16,7 @@ def inspectRSS(feedURL):
     if action == START:
       indent += '  '
       attrs = elem.keys()
-      tree += '%s%s: %s :: %s\n'%(indent, elem.tag, ', '.join(attrs if attrs else ['None']), elem.text[:100] if elem.text else '')
+      tree += '%s%s: %s :: %s\n'%(indent, elem.tag, ', '.join(attrs if attrs else ['None']), elem.text[:100].replace('\n', '') if elem.text else '')
     else:
       indent = indent[0:-2]
 

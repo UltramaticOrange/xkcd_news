@@ -10,6 +10,30 @@ https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&topic=h&num=10&output=rss:
     date: .//pubDate/text()
     image: re:match(.//description/text(), 't[0-9].gstatic.com/images\?[^\">]+', 'g')/text()
 
+https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&topic=tc&num=10&output=rss:
+  xpathParse:
+    stripHTML: true
+    item: '/rss/channel/item'
+    namespace: 
+      re: http://exslt.org/regular-expressions
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    date: .//pubDate/text()
+    image: re:match(.//description/text(), 't[0-9].gstatic.com/images\?[^\">]+', 'g')/text()
+
+https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&topic=snc&num=10&output=rss:
+  xpathParse:
+    stripHTML: true
+    item: '/rss/channel/item'
+    namespace: 
+      re: http://exslt.org/regular-expressions
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    date: .//pubDate/text()
+    image: re:match(.//description/text(), 't[0-9].gstatic.com/images\?[^\">]+', 'g')/text()
+
 http://rss.cnn.com/rss/cnn_topstories.rss:
   xpathParse:
     stripHTML: true
@@ -68,5 +92,28 @@ http://feeds.abcnews.com/abcnews/topstories:
     url: .//link/text()
     body: .//description/text()
     date: .//pubDate/text()
-    #image: .//yahoo:thumbnail[@width="992"]/@url
     image: (.//yahoo:thumbnail[@width="992"]/@url | /rss/channel/image/url/text())[last()]
+
+http://www.engadget.com/rss.xml:
+  xpathParse:
+    stripHTML: true
+    item: '/rss/channel/item'
+    namespace: 
+      re: http://exslt.org/regular-expressions
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    date: .//pubDate/text()
+    image: re:match(.//description/text(), 'o.aolcdn.com[^\">]+', 'g')/text()
+
+http://www.jpl.nasa.gov/multimedia/rss/news.xml:
+  xpathParse:
+    stripHTML: true
+    item: '/rss/channel/item'
+    namespace: 
+      re: http://exslt.org/regular-expressions
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    date: .//pubDate/text()
+    image: ((re:match(.//description/text(), 'www.jpl.nasa.gov/images/[^\">]+', 'g')/text()) | /rss/channel/image/url/text())[1]

@@ -12,4 +12,4 @@ if [ -x "gen_todo.sh" ]; then
 fi
 
 # ya' know. things and stuff.
-python news_v.py 2>&1 > news.log &
+nohup python news_v.py 2>&1 >> news.log &
