@@ -1,26 +1,48 @@
 import re
 import yaml
 import arrow
+import logging
 import requests
-from lxml import etree
-from news_consts import C
-from dateutil import parser # I'd rather just import dateutil and call dateutil.parser.parse(), but python has a hard time finding parser. Old-style class, maybe?
+from   lxml import etree
+from   dateutil import parser # I'd rather just import dateutil and call dateutil.parser.parse(), but python has a hard time finding parser. Old-style class, maybe?
+from   news_consts import C, log_messages
 
 # TODO: pull in the publication date
 
 class news_feed(list):
   def __init__(self, url, xpathConfig):
-    self._transformations = open(C.SUBS_FILE) # TODO: news_feed.__init__: handle errors from open()
-    self._transformations = self._transformations.read() # TODO: news_feed.__init__: I expect that read() can throw errors.
-    self._transformations = yaml.load(self._transformations) # TODO: news_feed.__init__: handle errors from yaml.load
+    try:
+      xformFile = open(C.SUBS_FILE)
+      self._transformations = xformFile.read()
+    except IOError:
+      logging.error(log_messages.E_MISSING_CONFIG%C.SUBS_FILE)
+    finally:
+      xformFile.close()
+
+    try:
+      self._transformations = yaml.load(self._transformations)
+    except yaml.scanner.ScannerError as e:
+      logging.error(log_messages.E_MALFORMED_CONFIG%C.SUBS_FILE)
 
     # TODO: news_feed.__init__: handle authenticated proxy nonsense.
-    result = requests.get(url) # TODO: news_feed.__init__: handle errors from requests.get
-    elem = etree.fromstring(result.content) # TODO: news_feed.__init__: handle errors from etree.fromstring
-
-    for e in elem.xpath(xpathConfig[C.XPATH_CONFIG][C.ITEM_ELEM]):
+    try:
+      result = requests.get(url
+      if result.status_code == 200:
+        elem = etree.fromstring(result.content)
+      else:
+        # if we didn't get a solid result, treat it the same as an error.
+        # TODO: news_feed.__init__: see if requests.get() handles redirects for us.
+        raise requests.exceptions.ConnectionError
+    except requests.exceptions.ConnectionError as e:
+      logging.error(log_messages.E_UNABLE_TO_FETCH%(result.status_code, url))
+    except etree.XMLSyntaxError as e:
+      logging.error(log_messages.E_INVALID_XML%url)
+    else:
+      # effectivly skip doing anything if we couldn't get or parse the feed.
+      # TODO: news_feed.__init__: I'm unsure how the rest of the app will behave to an empty (subclassed) list.
+      for e in elem.xpath(xpathConfig[C.XPATH_CONFIG][C.ITEM_ELEM]):
       # REMINDER! You overrode the append method.
-      self.append(*self._parse(e, xpathConfig[C.XPATH_CONFIG]))
+        self.append(*self._parse(e, xpathConfig[C.XPATH_CONFIG]))
 
   def _parse(self, e, xpathConfig):
     url = self._safe_xpath(e, xpathConfig[C.XP_URL], xpathConfig[C.NAMESPACE])
@@ -35,8 +57,8 @@ class news_feed(list):
   def _safe_xpath(self, e, xp, ns):
     try:
       item = e.xpath(xp, namespaces=ns)
-    except:
-      # TODO: news_feed._safe_xpath: handle whatever errors lxml.etree.xpath throws when there's a syntax mistake in the path.
+    except etree.XPathEvalError:
+      logging.error(log_messages.E_INVALID_XPATH%(xp, e.tag))
       return None
 
     # TODO: news_feed._safe_xpath: detect and transform text encoding instead of throwing stuff out.
@@ -66,12 +88,3 @@ class news_feed(list):
     def __init__(self, title, body):
       self.title = title
       self.body = body
-
-class xkcd_news(list):
-  def __init__(self):
-    news_feeds = open(C.FEEDS_FILE) # TODO: xkcd_news:__init__: handle being unable to open a file
-    news_feeds = news_feeds.read()
-    news_feeds = yaml.load(news_feeds)
-
-    for url,xpathConfig in news_feeds.items():
-      self.append(news_feed(url, xpathConfig))

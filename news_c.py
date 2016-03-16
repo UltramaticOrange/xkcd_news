@@ -1,12 +1,22 @@
 import yaml
-from news_consts import C
+import logging
+from news_consts import C, log_messages
 from news_m import news_feed
 
 class xkcd_news(list):
   def __init__(self):
-    news_feeds = open(C.FEEDS_FILE) # TODO: xkcd_news:__init__: handle being unable to open a file
-    news_feeds = news_feeds.read() # TODO: xkcd_news:__init__: handle being unable to read a file
-    news_feeds = yaml.load(news_feeds) # TODO: xkcd_news:__init__: handle being unable to parse yaml/syntax error
+    try:
+      feeds = open(C.FEEDS_FILE)
+      newsFeeds = feeds.read() # shouldn't need to put this here as python seems to complain on the open(). Just being safe.
+    except IOError as e:
+      logging.error(log_messages.E_MISSING_CONFIG%C.FEEDS_FILE)
+    finally:
+      feeds.close()
 
-    for url,xpathConfig in news_feeds.items():
+    try:
+      newsFeeds = yaml.load(newsFeeds)
+    except yaml.scanner.ScannerError as e:
+      logging.error(log_messages.E_MALFORMED_CONFIG%C.FEEDS_FILE)
+
+    for url,xpathConfig in newsFeeds.items():
       self.append(news_feed(url, xpathConfig))

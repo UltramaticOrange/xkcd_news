@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ "$1" ]; then
+  listenOn="$1"
+else
+  listenOn="127.0.0.1"
+fi
+
 # kill the old process first (if found).
 pid=`ps gaxu | grep python | grep news_v | grep -v grep | awk '{print $2}'`
 if [ "$pid" ]; then
@@ -12,4 +18,4 @@ if [ -x "gen_todo.sh" ]; then
 fi
 
 # ya' know. things and stuff.
-nohup python news_v.py 2>&1 >> news.log &
+nohup python news_v.py -l "$listenOn" 2>&1 >> news.log &

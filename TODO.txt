@@ -1,39 +1,25 @@
 
+memoize.py:
+
+
 news_consts.py:
 
 
 news_c.py:
-# TODO: xkcd_news:__init__: handle being unable to open a file
-# TODO: xkcd_news:__init__: handle being unable to read a file
-# TODO: xkcd_news:__init__: handle being unable to parse yaml/syntax error
 
 
 news_m.py:
 # TODO: pull in the publication date
-# TODO: news_feed.__init__: handle errors from open()
-# TODO: news_feed.__init__: I expect that read() can throw errors.
-# TODO: news_feed.__init__: handle errors from yaml.load
 # TODO: news_feed.__init__: handle authenticated proxy nonsense.
-# TODO: news_feed.__init__: handle errors from requests.get
-# TODO: news_feed.__init__: handle errors from etree.fromstring
-# TODO: news_feed._safe_xpath: handle whatever errors lxml.etree.xpath throws when there's a syntax mistake in the path.
+# TODO: news_feed.__init__: see if requests.get() handles redirects for us.
+# TODO: news_feed.__init__: I'm unsure how the rest of the app will behave to an empty (subclassed) list.
 # TODO: news_feed._safe_xpath: detect and transform text encoding instead of throwing stuff out.
 # TODO: _story.__init__: arrow.get and dateutil.parser.parse probably can throw all sorts of errors that need handled.
-# TODO: xkcd_news:__init__: handle being unable to open a file
 
 
 news_v.py:
-# TODO: image64: would be good to memoize this. Python 2.7 does not have one in functools, so a custom decorator will be needed
-# TODO: image64: don't rely on onthe C.IMG_MAX_SIZE -- optional params to allow the user to specify the size or to skip the resize.
 # TODO: image64: proxy config
-# TODO: image64: handle errors 
-# TODO: news: pre-fetch, resize and base64 the images so we can easily toss them out if they 404 (I'm looking at YOU, Al Jazeera...)
-# TODO: news: don't use story.HTML() to generate formatting. Let's read an HTML doc and give it some fancy CSS.
-# TODO: news: handle being unable to open the template
-# TODO: news: handle being unable to read the template
 # TODO: news: make date an item in consts so it's configurable-ish.
-# TODO: handle bad formatting in the template (read: someone didn't use {{ and }} in CSS)
-# TODO: Take args if we just want to dump to screen for testing. 
 
 
 rss_inspector.py:
