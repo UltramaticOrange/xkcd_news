@@ -26,7 +26,7 @@ class news_feed(list):
 
     # TODO: news_feed.__init__: handle authenticated proxy nonsense.
     try:
-      result = requests.get(url
+      result = requests.get(url)
       if result.status_code == 200:
         elem = etree.fromstring(result.content)
       else:
