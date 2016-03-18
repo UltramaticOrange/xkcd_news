@@ -9,7 +9,6 @@ news_c.py:
 
 
 news_m.py:
-# TODO: pull in the publication date
 # TODO: news_feed.__init__: handle authenticated proxy nonsense.
 # TODO: news_feed.__init__: see if requests.get() handles redirects for us.
 # TODO: news_feed.__init__: I'm unsure how the rest of the app will behave to an empty (subclassed) list.
@@ -23,5 +22,8 @@ news_v.py:
 
 
 rss_inspector.py:
+
+
+stub.py:
 
 
