@@ -30,11 +30,11 @@ class news_feed(list):
         self.append(*self._parse(e, xpathConfig[C.XPATH_CONFIG]))
 
   def _parse(self, e, xpathConfig):
-    url = self._safe_xpath(e, xpathConfig[C.XP_URL], xpathConfig[C.NAMESPACE])
-    title = self._safe_xpath(e, xpathConfig[C.XP_TITLE], xpathConfig[C.NAMESPACE])
-    body = self._safe_xpath(e, xpathConfig[C.XP_BODY], xpathConfig[C.NAMESPACE])
-    date = self._safe_xpath(e, xpathConfig[C.XP_DATE], xpathConfig[C.NAMESPACE])
-    image = self._safe_xpath(e, xpathConfig[C.XP_IMAGE], xpathConfig[C.NAMESPACE])
+    url = self._safe_xpath(e, xpathConfig[C.XP_URL], xpathConfig[C.NAMESPACE]) or ''
+    title = self._safe_xpath(e, xpathConfig[C.XP_TITLE], xpathConfig[C.NAMESPACE]) or ''
+    body = self._safe_xpath(e, xpathConfig[C.XP_BODY], xpathConfig[C.NAMESPACE]) or ''
+    date = self._safe_xpath(e, xpathConfig[C.XP_DATE], xpathConfig[C.NAMESPACE]) or ''
+    image = self._safe_xpath(e, xpathConfig[C.XP_IMAGE], xpathConfig[C.NAMESPACE]) or ''
 
     body = C.STRIP_HTML_RE.sub('', body) if xpathConfig[C.STRIP_HTML] else body
     return url, title, body, date, image
