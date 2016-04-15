@@ -1,9 +1,8 @@
 #!/bin/bash
 
+listenOn="127.0.0.1"
 if [ "$1" ]; then
   listenOn="$1"
-else
-  listenOn="127.0.0.1"
 fi
 
 # kill the old process first (if found).

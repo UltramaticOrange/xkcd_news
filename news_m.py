@@ -9,6 +9,7 @@ from   news_consts import C, log_messages
 
 class news_feed(list):
   def __init__(self, url, xpathConfig):
+    result = None;
     # TODO: news_feed.__init__: handle authenticated proxy nonsense.
     try:
       result = requests.get(url)
@@ -19,7 +20,7 @@ class news_feed(list):
         # TODO: news_feed.__init__: see if requests.get() handles redirects for us.
         raise requests.exceptions.ConnectionError
     except requests.exceptions.ConnectionError as e:
-      logging.error(log_messages.E_UNABLE_TO_FETCH%(result.status_code, url))
+      logging.error(log_messages.E_UNABLE_TO_FETCH%(result.status_code if result else '<timeout>', url))
     except etree.XMLSyntaxError as e:
       logging.error(log_messages.E_INVALID_XML%url)
     else:
