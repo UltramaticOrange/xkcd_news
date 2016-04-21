@@ -2,10 +2,10 @@
 memoize.py:
 
 
-news_consts.py:
-
-
 news_c.py:
+
+
+news_consts.py:
 
 
 news_m.py:
@@ -17,6 +17,7 @@ news_m.py:
 
 
 news_v.py:
+# TODO: news_[mvc]: write a separte function that does all error handling for requests.get() calls
 # TODO: image64: proxy config
 # TODO: news: make date an item in consts so it's configurable-ish.
 
