@@ -10,8 +10,8 @@ class memoize(object):
       if key not in self.cache:
         self.cache[key] = f(*args, **kwargs)
         self.addOrder.append(key)
-      else:
-        val = self.cache[key] # handle edge case where we might remove the value we want to return.
+
+      val = self.cache[key] # handle edge case where we might remove the value we want to return.
 
       if len(self.addOrder) > self.maxCacheSize:
         self.cache.pop(self.addOrder[0])
