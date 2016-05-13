@@ -8,7 +8,7 @@ google glass: virtual boy
 smartphone: pokedex
 electric: atomic
 senator: elf-lord
-car: cat
+'car ': 'cat '
 election: eating contest
 congressional leaders: river spirits
 homeland security: homestar runner
@@ -34,5 +34,28 @@ no indication: lots of signs
 urged restraint by: drunkenly egged on
 horsepower: tons of horsemeat
 
+# Substitutions 3: https://xkcd.com/1679/
+gaffe: magic spell
+ancient: haunted
+star-studded: blood-soaked
+remains to bee seen: will never be known
+silver bullet: way to kill werewolves
+subway system: tunnels I found
+surprising: surprising (but not to me)
+war of words: interplanetary war
+tension: sexual tension
+cautiously optimistic: delusional
+doctor who: the big bang theory
+win votes: find pokemon
+behind the headlines: beyond the grave
+(email|facebook post|tweet): poem
+facebook ceo: this guy
+disrupt: destroy
+meeting: menage a trois
+scientists: Channing Tatum and his friends
+you won't believe: I'm really sad about
+
+
 # My own very special extra touch.
-Trump: a man with a tragically butt-shaped face
+(Donald )?Trump: a bag of Cheetos
+Marco: Marco "Polo"
