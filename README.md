@@ -47,7 +47,7 @@ Resolving deltas: 100% (71/71), done.
 Checking connectivity... done.
 user@linux$ cd xkcd_news
 user@linux$ python news_v.py
- * Running on http://127.0.0.1:5000/```
+* Running on http://127.0.0.1:5000/```
 
 If a message other than "Running..." appears when testing the configuration, you likely have unmet dependancies. Please report these so documentation can be updated as needed.
 If the sucessful "running" text appears, then press Ctrl+C to stop the process from running.
