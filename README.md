@@ -14,6 +14,7 @@ The web comic XKCD has made suggested, "Substituutions that make reading the new
 ## Setup:
 ### Setup your environment:
 > **NOTE:** xkcd_news was built on Python 2.7 on a Debian Jessie host. Setup instructions assume a similar environment.
+
 #### Verify Python is installed:
 By default, python should already be on your host machine. In the `whereis` command below, note the paths `/usr/bin/python2.7` for Python 2.7 resources and `/usr/bin/python` for the executable.
 
@@ -52,7 +53,7 @@ If a message other than "Running..." appears when testing the configuration, you
 If the sucessful "running" text appears, then press Ctrl+C to stop the process from running.
 
 ## Configure new RSS feeds:
-xkcd_news uses XPaths to identify the various parts of a news article in an RSS feed. XPaths are an entire separate topic not covered in this documentation. However, you can generally think of them as beeing like a directory structure where the first item in the path encapsulates the subsuqent items. So given the XML `<foo><bar><baz1></baz1><baz2></baz2>Hi!</bar></foo>`, the XPath `/foo/bar/baz2' would point us at the data in the `baz2` item and `/foo/bar/baz2/text()` would give us just the text `Hi!`.
+xkcd_news uses XPaths to identify the various parts of a news article in an RSS feed. XPaths are an entire separate topic not covered in this documentation. However, you can generally think of them as being like a directory structure where the first item in the path encapsulates the subsuqent items. So given the XML `<foo><bar><baz1></baz1><baz2>Hi!</baz2></bar></foo>`, the XPath `/foo/bar/baz2` would point us at the data in the `baz2` item and `/foo/bar/baz2/text()` would give us just the text `Hi!`
 
 By default, xkcd_news comes configured with several RSS feeds including Google News and Al Jazeera. To add additional RSS feeds, the `feeds.yaml` configuration file needs to be modified. It is recommended to begin by copying a configuration that is known to be working and modifying it for the new RSS feed. Because RSS is a well specified format, there should be very little that will need to be changed. Let's start with the existing Al Jazeera configuration and modify it for the Washington Post.
 
@@ -99,7 +100,7 @@ http://www.aljazeera.com/xml/rss/all.xml:
   This is the relative XPath that specifies the publication date of the news article. It is unlikely you will need to change this. This date value determines the order of the final output. 
 
 #### `image:`
-  An image is not part of the default RSS specification. The result is that this value will likely need to be changed for every RSS feed added to feeds.yaml. The default `feeds.yaml` configuration comes with examples on how to find an image resource in the article summary/body by regular expressions (see uses of the 're' namespace), by non-standard tags (see uses of the 'yahoo' namespace), by simply defaulting to the main image of the feed (see the above starting sample), and by using an XPath that gives us the image URL via regular expressioin if one is available, otherwise defaulting to the main feed image (effectively mixing two of the previous options).
+  An image is not part of the default RSS specification. The result is that this value will likely need to be changed for every RSS feed added to `feeds.yaml`. The default `feeds.yaml` configuration comes with examples on how to find an image resource in the article summary/body by regular expressions (see uses of the 're' namespace), by non-standard tags (see uses of the 'yahoo' namespace), by simply defaulting to the main image of the feed (see the above starting sample), and by using an XPath that gives us the image URL via regular expressioin if one is available, otherwise defaulting to the main feed image (effectively mixing two of the previous options).
 
 ### Updated sample:
 ```
