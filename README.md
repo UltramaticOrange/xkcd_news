@@ -67,7 +67,7 @@ Trump: Drumpf
 If we wanted to replace all instance of Hillary or Hillary Clinton with Billary, our file becomes
 ```
 Trump: Drumpf
-Hillary( Clinton)?:Billary
+Hillary( Clinton)?: Billary
 ```
 
 Note how we're using regular expressions to replace both "Hillary" and "Hillary Clinton".
@@ -181,5 +181,18 @@ cron:
 */5 *  *   *   *     /var/www/getNews.sh
 ```
 
+Effectively, cron runs the `getNews.sh` script every five minutes. That script gets the output of xkcd_news (running as a non-root user), puts it in a temporary file, and then replaces the main `index.html` file of the site.
+
 #### Additional run information:
 Depending on your use case, xkcd_news might be handling a large number of images, or are resizing large images down to a smaller size. This proved to be time intensive and as a result, xkcd_news has a temporary in-memory cache of 100 images. This improves the overall performance, but it should be noted that after a restart of the service, the individual doing the restart should navigate to the service to rebuild the image cache before permitting users to use the service again.
+ 
+## Formatting the HTML output:
+The default appearance of xkcd_news is ....... ugly. However, all HTML tags are given a class identifier so that they can be styled by CSS. To update the CSS styling, edit `template.html`.
+
+The class identfiers are as follows:
+* `date` - The publish date
+* `wrapper` - A `<div>` tag that wraps an individual news story (image, headline, and summary text)
+* `title` - A `<div>` that contains the story headline
+* `image` - An `<img>` tag 
+* `body` - A `<div>` tag that contains the summary text 
+* `url` - An `<a>` (anchor) tag which contains the headline text.
