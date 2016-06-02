@@ -18,8 +18,10 @@ The web comic XKCD has made suggested, "Substituutions that make reading the new
 #### Verify Python is installed:
 By default, python should already be on your host machine. In the `whereis` command below, note the paths `/usr/bin/python2.7` for Python 2.7 resources and `/usr/bin/python` for the executable.
 
-```user@linux$ whereis python
-python: /usr/bin/python2.7 /usr/bin/python3.4 /usr/bin/python3.4m /usr/bin/python /etc/python2.7 /etc/python3.4 /etc/python /usr/lib/python2.7 /usr/lib/python3.4 /usr/lib/python2.6 /usr/bin/X11/python2.7 /usr/bin/X11/python3.4 /usr/bin/X11/python3.4m /usr/bin/X11/python /usr/local/lib/python2.7 /usr/local/lib/python3.4 /usr/include/python2.7 /usr/include/python3.4m /usr/share/python /usr/share/man/man1/python.1.gz```
+```
+user@linux$ whereis python
+python: /usr/bin/python2.7 /usr/bin/python3.4 /usr/bin/python3.4m /usr/bin/python /etc/python2.7 /etc/python3.4 /etc/python /usr/lib/python2.7 /usr/lib/python3.4 /usr/lib/python2.6 /usr/bin/X11/python2.7 /usr/bin/X11/python3.4 /usr/bin/X11/python3.4m /usr/bin/X11/python /usr/local/lib/python2.7 /usr/local/lib/python3.4 /usr/include/python2.7 /usr/include/python3.4m /usr/share/python /usr/share/man/man1/python.1.gz
+```
 
 If Python is missing, run:
 ```user@linux$ sudo apt-get install python```
@@ -48,11 +50,27 @@ Resolving deltas: 100% (71/71), done.
 Checking connectivity... done.
 user@linux$ cd xkcd_news
 user@linux$ python news_v.py
-Running on http://127.0.0.1:5000/
+ * Running on http://127.0.0.1:5000/
 ```
 
 If a message other than "Running..." appears when testing the configuration, you likely have unmet dependancies. Please report these so documentation can be updated as needed.
 If the sucessful "running" text appears, then press Ctrl+C to stop the process from running.
+
+## Change substitution values:
+To change the substitution values, edit the `substitutions.yaml` configuration file. This is a simple list of key:value pairs where the key is the text we wish to replace, and the value is what we wish to read instead. The key is case insensitive and allows for regular expressions.
+
+For example, if we wanted to replace all instances of Trump with Drumpf we'd add the following line:
+```
+Trump: Drumpf
+```
+
+If we wanted to replace all instance of Hillary or Hillary Clinton with Billary, our file becomes
+```
+Trump: Drumpf
+Hillary( Clinton)?:Billary
+```
+
+Note how we're using regular expressions to replace both "Hillary" and "Hillary Clinton".
 
 ## Configure new RSS feeds:
 xkcd_news uses XPaths to identify the various parts of a news article in an RSS feed. XPaths are an entire separate topic not covered in this documentation. However, you can generally think of them as being like a directory structure where the first item in the path encapsulates the subsuqent items. So given the XML `<foo><bar><baz1></baz1><baz2>Hi!</baz2></bar></foo>`, the XPath `/foo/bar/baz2` would point us at the data in the `baz2` item and `/foo/bar/baz2/text()` would give us just the text `Hi!`
@@ -122,4 +140,46 @@ http://feeds.washingtonpost.com/rss/national:
 #### What changed?
 - The URL changed to point at the RSS feed. Instead of pointing at Al Jazeera U.S. news, it now points at the national coverage for the Washington Post.
 - We added the namespace `yahoo` which allows us to point at the non-standard "thumbnail" tag for the article image.
-- We updated the image XPath. Note how we're using a relative path and specifying the `yahoo` namespace. The `@` symbol indicates that we're looking at an XML attribute (e.g. `bar` in `<foo bar='Hi!' />`)
+- We updated the image XPath. Note how we're using a relative path and specifying the `yahoo` namespace. The `@` symbol indicates that we're looking at an XML attribute (e.g. `@bar` points at `Hi!` in `<foo bar='Hi!' />`)
+
+## Running
+xkcd_news comes with a very minimal run script called `run`. If you've actually made it this far in the documentation, you'll likely want to create something more robust for yourself. Logging is directed to `news.log` in your current directory.
+
+### Start the service:
+#### Only accessable to the local machine (localhost):
+```user@linux$ ./run```
+
+To restart the service, simply re-run `./run` as above.
+
+#### Accessable to other hosts on the network:
+```user@linux$ ./run 0.0.0.0```
+
+To restart the service, simply re-run `./run` as above.
+
+> **NOTE:** If you're running on a machine with multiple network cards, it may be prudent to specify the exact IP of the networking interface you want teh service to be accessable on.
+
+### Access the service (get the news):
+Point your web browser at the IP and port you are running on. By default, this will be http://localhost:5000
+
+### Alternative setup for public, internet accessable content:
+
+If you're planning on running a public facing instance of xkcd_news, telling users to point their browsers at a specified port is not a viable option. In this instance, it is recommended that you treat xkcd_news more like a REST service: use `wget` to fetch the output of xkcd_news into a temporary file, and then move that file into your web directory.
+
+Below is my current configuration
+
+getNews.sh:
+```
+#!/bin/bash
+
+cd /var/www/html
+wget http://localhost:5000 -q -O tmp.html
+mv tmp.html index.html
+```
+
+cron:
+```
+*/5 *  *   *   *     /var/www/getNews.sh
+```
+
+#### Additional run information:
+Depending on your use case, xkcd_news might be handling a large number of images, or are resizing large images down to a smaller size. This proved to be time intensive and as a result, xkcd_news has a temporary in-memory cache of 100 images. This improves the overall performance, but it should be noted that after a restart of the service, the individual doing the restart should navigate to the service to rebuild the image cache before permitting users to use the service again.
