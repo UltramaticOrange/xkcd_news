@@ -16,6 +16,7 @@ The web comic XKCD has made suggested, "Substituutions that make reading the new
 ```**NOTE:** xkcd_news was built on Python 2.7 on a Debian Jessie host. Setup instructions assume a similar environment.```
 #### Verify Python is installed:
 By default, python should already be on your host machine. In the `whereis` command below, note the paths `/usr/bin/python2.7` for Python 2.7 resources and `/usr/bin/python` for the executable.
+
 ```user@linux$ whereis python
 python: /usr/bin/python2.7 /usr/bin/python3.4 /usr/bin/python3.4m /usr/bin/python /etc/python2.7 /etc/python3.4 /etc/python /usr/lib/python2.7 /usr/lib/python3.4 /usr/lib/python2.6 /usr/bin/X11/python2.7 /usr/bin/X11/python3.4 /usr/bin/X11/python3.4m /usr/bin/X11/python /usr/local/lib/python2.7 /usr/local/lib/python3.4 /usr/include/python2.7 /usr/include/python3.4m /usr/share/python /usr/share/man/man1/python.1.gz```
 
@@ -44,8 +45,7 @@ Resolving deltas: 100% (71/71), done.
 Checking connectivity... done.
 user@linux$ cd xkcd_news
 user@linux$ python news_v.py
- * Running on http://127.0.0.1:5000/
-```
+ * Running on http://127.0.0.1:5000/```
 
 If a message other than "Running..." appears when testing the configuration, you likely have unmet dependancies. Please report these so documentation can be updated as needed.
 If the sucessful "running" text appears, then press Ctrl+C to stop the process from running.
