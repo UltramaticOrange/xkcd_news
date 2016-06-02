@@ -38,7 +38,8 @@ If Python is missing, run:
 > **NOTE:** Ubuntu and derivatives do not have a python-arrow package available through the APT repos. Running "pip install arrow" should resolve this dependancy.
 
 ### Get the xkcd_news code from GitHub and test the envronment:
-```user@linux$ git clone https://github.com/UltramaticOrange/xkcd_news.git
+```
+user@linux$ git clone https://github.com/UltramaticOrange/xkcd_news.git
 Cloning into 'xkcd_news'...
 remote: Counting objects: 117, done.
 remote: Total 117 (delta 0), reused 0 (delta 0), pack-reused 117
@@ -47,7 +48,8 @@ Resolving deltas: 100% (71/71), done.
 Checking connectivity... done.
 user@linux$ cd xkcd_news
 user@linux$ python news_v.py
-Running on http://127.0.0.1:5000/```
+Running on http://127.0.0.1:5000/
+```
 
 If a message other than "Running..." appears when testing the configuration, you likely have unmet dependancies. Please report these so documentation can be updated as needed.
 If the sucessful "running" text appears, then press Ctrl+C to stop the process from running.
