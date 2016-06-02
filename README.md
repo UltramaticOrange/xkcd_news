@@ -13,7 +13,7 @@ The web comic XKCD has made suggested, "Substituutions that make reading the new
 
 ## Setup:
 ### Setup your environment:
-```**NOTE:** xkcd_news was built on Python 2.7 on a Debian Jessie host. Setup instructions assume a similar environment.```
+> **NOTE:** xkcd_news was built on Python 2.7 on a Debian Jessie host. Setup instructions assume a similar environment.
 #### Verify Python is installed:
 By default, python should already be on your host machine. In the `whereis` command below, note the paths `/usr/bin/python2.7` for Python 2.7 resources and `/usr/bin/python` for the executable.
 
@@ -23,7 +23,7 @@ python: /usr/bin/python2.7 /usr/bin/python3.4 /usr/bin/python3.4m /usr/bin/pytho
 If Python is missing, run:
 ```user@linux$ sudo apt-get install python```
 
-```**NOTE:** Python 3 will likely become the default version in near future and that specifying Python 2.7 in the `apt-get install` command may become necissary```
+> **NOTE:** Python 3 will likely become the default version in near future and that specifying Python 2.7 in the `apt-get install` command may become necissary
 
 #### Install the Flask module for Python.
 ```user@linux$ sudo apt-get install python-flask```
@@ -33,7 +33,8 @@ If Python is missing, run:
 
 #### Install the arrow module for Python.
 ```user@linux$ sudo apt-get install python-arrow```
-```**NOTE:** Ubuntu and derivatives do not have a python-arrow package available through the APT repos. Running "pip install arrow" should resolve this dependancy.```
+
+> **NOTE:** Ubuntu and derivatives do not have a python-arrow package available through the APT repos. Running "pip install arrow" should resolve this dependancy.
 
 ### Get the xkcd_news code from GitHub and test the envronment:
 ```user@linux$ git clone https://github.com/UltramaticOrange/xkcd_news.git
