@@ -1,43 +1,6 @@
-- [xkcd_news](#)
-  - [About xkcd_news:](#)
-    - [Substitutions:](#)
-    - [Substitutions 2:](#)
-    - [Substitutions 3:](#)
-  - [Setup:](#)
-    - [Setup your environment:](#)
-      - [Verify Python is installed:](#)
-      - [Install the Flask module for Python.](#)
-      - [Install the YAML module for Python.](#)
-      - [Install the arrow module for Python.](#)
-    - [Get the xkcd_news code from GitHub and test the envronment:](#)
-  - [Change substitution values:](#)
-  - [Configure new RSS feeds:](#)
-    - [Starting sample:](#)
-      - [In top-down ordering, we see the following:](#)
-      - [A URL](#)
-      - [xpathParse:](#)
-      - [stripHTML:](#)
-      - [item:](#)
-      - [namespace:](#)
-      - [title:](#)
-      - [url:](#)
-      - [body:](#)
-      - [date:](#)
-      - [image:](#)
-    - [Updated sample:](#)
-      - [What changed?](#)
-  - [Running](#)
-    - [Start the service:](#)
-      - [Only accessable to the local machine (localhost):](#)
-      - [Accessable to other hosts on the network:](#)
-    - [Access the service (get the news):](#)
-    - [Alternative setup for public, internet accessable content:](#)
-      - [Additional run information:](#)
-  - [Formatting the HTML output:](#)
-
 # xkcd_news
 ## About xkcd_news:
-The web comic XKCD has made suggested, "Substituutions that make reading the news more fun." This code was written to take-in RSS feeds from news websites, normalize the content, make the suggested substitutions, and present the content in an easy to read layout specified by an HTML template.
+The web comic XKCD has made suggested, "Substitutions that make reading the news more fun." This code was written to take-in RSS feeds from news websites, normalize the content, make the suggested substitutions, and present the content in an easy to read layout specified by an HTML template.
 
 ### Substitutions:
 ![alt tag](http://imgs.xkcd.com/comics/substitutions.png)
@@ -76,7 +39,7 @@ If Python is missing, run:
 
 > **NOTE:** Ubuntu and derivatives do not have a python-arrow package available through the APT repos. Running "pip install arrow" should resolve this dependancy.
 
-### Get the xkcd_news code from GitHub and test the envronment:
+### Get the xkcd_news code from GitHub and test the environment:
 ```
 user@linux$ git clone https://github.com/UltramaticOrange/xkcd_news.git
 Cloning into 'xkcd_news'...
@@ -90,8 +53,8 @@ user@linux$ python news_v.py
  * Running on http://127.0.0.1:5000/
 ```
 
-If a message other than "Running..." appears when testing the configuration, you likely have unmet dependancies. Please report these so documentation can be updated as needed.
-If the sucessful "running" text appears, then press Ctrl+C to stop the process from running.
+If a message other than "Running..." appears when testing the configuration, you likely have unmet dependencies. Please report these so documentation can be updated as needed.
+If the successful "running" text appears, then press Ctrl+C to stop the process from running.
 
 ## Change substitution values:
 To change the substitution values, edit the `substitutions.yaml` configuration file. This is a simple list of key:value pairs where the key is the text we wish to replace, and the value is what we wish to read instead. The key is case insensitive and allows for regular expressions.
@@ -110,7 +73,7 @@ Hillary( Clinton)?: Billary
 Note how we're using regular expressions to replace both "Hillary" and "Hillary Clinton".
 
 ## Configure new RSS feeds:
-xkcd_news uses XPaths to identify the various parts of a news article in an RSS feed. XPaths are an entire separate topic not covered in this documentation. However, you can generally think of them as being like a directory structure where the first item in the path encapsulates the subsuqent items. So given the XML `<foo><bar><baz1></baz1><baz2>Hi!</baz2></bar></foo>`, the XPath `/foo/bar/baz2` would point us at the data in the `baz2` item and `/foo/bar/baz2/text()` would give us just the text `Hi!`
+xkcd_news uses XPaths to identify the various parts of a news article in an RSS feed. XPaths are an entire separate topic not covered in this documentation. However, you can generally think of them as being like a directory structure where the first item in the path encapsulates the subsequent items. So given the XML `<foo><bar><baz1></baz1><baz2>Hi!</baz2></bar></foo>`, the XPath `/foo/bar/baz2` would point us at the data in the `baz2` item and `/foo/bar/baz2/text()` would give us just the text `Hi!`
 
 By default, xkcd_news comes configured with several RSS feeds including Google News and Al Jazeera. To add additional RSS feeds, the `feeds.yaml` configuration file needs to be modified. It is recommended to begin by copying a configuration that is known to be working and modifying it for the new RSS feed. Because RSS is a well specified format, there should be very little that will need to be changed. Let's start with the existing Al Jazeera configuration and modify it for the Washington Post.
 
@@ -136,7 +99,7 @@ http://www.aljazeera.com/xml/rss/all.xml:
   This is a static value that will always remain unchanged. It identifies the start of the XPath configuration block and will serve to separate it from other configuration items in future versions of xkcd_news.
 
 #### `stripHTML:`
-  This will either be `true` or `false` depending on if the RSS feed has undesired HTML content in the main body (description/summary) text. Generally it's a good idea to simply set this to `true`. However, some RSS feeds, such as Google News, add links to recommeded stories. Stripping HTML in those cases can make the summary text confusing to read. A future version of xkcd_news will have an additional option to fine-tune what content should be stripped from the feed.
+  This will either be `true` or `false` depending on if the RSS feed has undesired HTML content in the main body (description/summary) text. Generally it's a good idea to simply set this to `true`. However, some RSS feeds, such as Google News, add links to recommended stories. Stripping HTML in those cases can make the summary text confusing to read. A future version of xkcd_news will have an additional option to fine-tune what content should be stripped from the feed.
 
 #### `item:` 
   This is a fully specified XPath to news items (headlines/articles) in the feed. Generally, this will never need to be changed. The exception might be for Atom feeds wich use a slightly different specification that is similar to RSS.
@@ -157,7 +120,7 @@ http://www.aljazeera.com/xml/rss/all.xml:
   This is the relative XPath that specifies the publication date of the news article. It is unlikely you will need to change this. This date value determines the order of the final output. 
 
 #### `image:`
-  An image is not part of the default RSS specification. The result is that this value will likely need to be changed for every RSS feed added to `feeds.yaml`. The default `feeds.yaml` configuration comes with examples on how to find an image resource in the article summary/body by regular expressions (see uses of the 're' namespace), by non-standard tags (see uses of the 'yahoo' namespace), by simply defaulting to the main image of the feed (see the above starting sample), and by using an XPath that gives us the image URL via regular expressioin if one is available, otherwise defaulting to the main feed image (effectively mixing two of the previous options).
+  An image is not part of the default RSS specification. The result is that this value will likely need to be changed for every RSS feed added to `feeds.yaml`. The default `feeds.yaml` configuration comes with examples on how to find an image resource in the article summary/body by regular expressions (see uses of the 're' namespace), by non-standard tags (see uses of the 'yahoo' namespace), by simply defaulting to the main image of the feed (see the above starting sample), and by using an XPath that gives us the image URL via regular expression if one is available, otherwise defaulting to the main feed image (effectively mixing two of the previous options).
 
 ### Updated sample:
 ```
@@ -198,7 +161,7 @@ To restart the service, simply re-run `./run` as above.
 ### Access the service (get the news):
 Point your web browser at the IP and port you are running on. By default, this will be http://localhost:5000
 
-### Alternative setup for public, internet accessable content:
+### Alternative setup for public, internet accessible content:
 
 If you're planning on running a public facing instance of xkcd_news, telling users to point their browsers at a specified port is not a viable option. In this instance, it is recommended that you treat xkcd_news more like a REST service: use `wget` to fetch the output of xkcd_news into a temporary file, and then move that file into your web directory.
 
@@ -226,7 +189,7 @@ Depending on your use case, xkcd_news might be handling a large number of images
 ## Formatting the HTML output:
 The default appearance of xkcd_news is ....... ugly. However, all HTML tags are given a class identifier so that they can be styled by CSS. To update the CSS styling, edit `template.html`.
 
-The class identfiers are as follows:
+The class identifiers are as follows:
 * `date` - The publish date
 * `wrapper` - A `<div>` tag that wraps an individual news story (image, headline, and summary text)
 * `title` - A `<div>` that contains the story headline
