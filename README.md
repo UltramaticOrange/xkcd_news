@@ -1,3 +1,16 @@
+- [xkcd_news](#)
+  - [About xkcd_news:](#about-xkcd_news)
+  - [Setup:](#setup)
+    - [Setup your environment:](#setup-your-environment)
+    - [Get the xkcd_news code from GitHub and test the environment:](#get-the-xkcd_news-code-from-github-and-test-the-environment)
+  - [Change substitution values:](#change-substitution-values)
+  - [Configure new RSS feeds:](#configure-new-rss-feeds)
+  - [Running](#running)
+    - [Start the service:](#start-the-service)
+    - [Access the service (get the news):](#access-the-service)
+    - [Alternative setup for public, internet accessible content:](#alternate-setup-for-public-internet-accessible-content)
+  - [Formatting the HTML output:](#formatting-the-html-output)
+
 # xkcd_news
 ## About xkcd_news:
 The web comic XKCD has made suggested, "Substitutions that make reading the news more fun." This code was written to take-in RSS feeds from news websites, normalize the content, make the suggested substitutions, and present the content in an easy to read layout specified by an HTML template.
