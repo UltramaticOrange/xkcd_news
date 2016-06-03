@@ -89,7 +89,7 @@ def news():
       title = C.HTML_A.format(**{C.CLASS:C.STORY_TITLE, C.URL:story.url, C.CONTENT:title})
       date = C.HTML_PUBLISH_DATE.format(**{C.CLASS:C.STORY_PUBUBLISH_DATE, C.CONTENT:normalizedDate})
       base64Image = image64(story.image) if story.image else ''
-      image = C.HTML_IMG.format(**{C.CLASS:C.STORY_IMAGE, C.CONTENT:base64Image}) if base64image else ''
+      image = C.HTML_IMG.format(**{C.CLASS:C.STORY_IMAGE, C.CONTENT:base64Image}) if base64Image else ''
       htmlStory = C.HTML_DIV.format(**{C.CLASS:C.STORY_WRAPPER, C.CONTENT:title+image+date+body})
 
       if normalizedDate in newsByDate:
