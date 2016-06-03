@@ -20,7 +20,7 @@ def image64(url, imgTag=False, maxSize=C.IMG_MAX_SIZE): # 'img' is abbriviated t
   # TODO: image64: proxy config
   response = None
   try:
-    response = requests.get(url)
+    response = requests.get(url, verify=False) # TODO: image64: The SSL certs for Debian Jessie haven't been updated since 2014. verify=False is a temporary work-around that shouuld be removed.
     if response and response.status_code != 200:
       raise requests.exceptions.ConnectionError
   except requests.exceptions.ConnectionError as e:
@@ -37,7 +37,7 @@ def image64(url, imgTag=False, maxSize=C.IMG_MAX_SIZE): # 'img' is abbriviated t
       logging.error(log_messages.E_CORRUPT_IMAGE%url)
       return None
   else:
-    logging.error(log_messages.E_UNKNOWN_IMAGE_TYPE)
+    logging.error(log_messages.E_UNKNOWN_IMAGE_TYPE%url)
     return None
 
   # if the image is larger than a 125x125 thumbnail then resize it
@@ -88,7 +88,8 @@ def news():
       title = C.HTML_DIV.format(**{C.CLASS:C.STORY_TITLE, C.CONTENT:story.title})
       title = C.HTML_A.format(**{C.CLASS:C.STORY_TITLE, C.URL:story.url, C.CONTENT:title})
       date = C.HTML_PUBLISH_DATE.format(**{C.CLASS:C.STORY_PUBUBLISH_DATE, C.CONTENT:normalizedDate})
-      image = C.HTML_IMG.format(**{C.CLASS:C.STORY_IMAGE, C.CONTENT:image64(story.image)}) if story.image else ''
+      base64Image = image64(story.image) if story.image else ''
+      image = C.HTML_IMG.format(**{C.CLASS:C.STORY_IMAGE, C.CONTENT:base64Image}) if base64image else ''
       htmlStory = C.HTML_DIV.format(**{C.CLASS:C.STORY_WRAPPER, C.CONTENT:title+image+date+body})
 
       if normalizedDate in newsByDate:
@@ -101,12 +102,13 @@ def news():
     html += ''.join(newsByDate[key])
 
   try:
-    finalHTML = htmlTemplate.format(**{C.HTML_BODY:html, C.HTML_TITLE:'your mom is a hoe bag, lulz.'})
+    finalHTML = htmlTemplate.format(**{C.HTML_BODY:html, C.HTML_TITLE:'Top Headlines, a la XKCD!'})
   except KeyError:
     logging.error(log_messages.E_TEMPLATE_MALFORMED)
-    finalHTML = C.HTML_FALLBACK.format(**{C.HTML_BODY:html, C.HTML_TITLE:'your mom is a hoe bag, lulz.'})
+    finalHTML = C.HTML_FALLBACK.format(**{C.HTML_BODY:html, C.HTML_TITLE:'Top Headlines, a la XKCD!'})
 
-  return htmlTemplate.format(**{C.HTML_BODY:html, C.HTML_TITLE:'your mom is a hoe bag, lulz.'})
+  return finalHTML
+  #htmlTemplate.format(**{C.HTML_BODY:html, C.HTML_TITLE:'your mom is a hoe bag, lulz.'})
 
 def main():
   print news()

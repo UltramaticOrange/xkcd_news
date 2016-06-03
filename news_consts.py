@@ -57,7 +57,7 @@ class log_messages(object):
   E_INVALID_XPATH = 'Invalid xpath %s while processing tag %s'
 
   E_CORRUPT_IMAGE = 'Could not process image file from web: %s'
-  E_UNKNOWN_IMAGE_TYPE = 'Unknown image type. Cannot process further.'
+  E_UNKNOWN_IMAGE_TYPE = 'Unknown image type. Cannot process further. URL: %s'
 
   E_TEMPLATE_MALFORMED = 'Template file %s was badly formed. Reverted to minimal formatting.\nDid you use single curly braces (i.e. { and }) in your CSS instead of double?'
   W_TEMPLATE_UNAVAILABLE = 'Template file %s could not be read.'
