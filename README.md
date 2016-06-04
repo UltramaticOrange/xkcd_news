@@ -24,6 +24,9 @@ The web comic XKCD has made suggested, "Substitutions that make reading the news
 ### Substitutions 3:
 ![alt tag](http://imgs.xkcd.com/comics/substitutions_3.png)
 
+### My Friend Catherine (New Favorite Substitution):
+![alt tag](http://imgs.xkcd.com/comics/my_friend_catherine.png)
+
 ## Setup:
 ### Setup your environment:
 > **NOTE:** xkcd_news was built on Python 2.7 on a Debian Jessie host. Setup instructions assume a similar environment.
