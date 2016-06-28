@@ -32,7 +32,7 @@ The web comic XKCD has made suggested, "Substitutions that make reading the news
 > **NOTE:** xkcd_news Setup instructions assume Python 3 and Debian Jessie or a similar environment.
 
 #### Verify Python is installed:
-By default, python should already be on your host machine. In the `whereis` command below, note the `/usr/bin/python3` for the executable.
+By default, python should already be on your host machine. In the `whereis` command below, note the `/usr/bin/python3`.
 
 ```
 user@linux$ whereis python3
@@ -41,8 +41,6 @@ python3: /usr/bin/python3 /usr/bin/python3.4m /usr/bin/python3.4 /usr/lib/python
 
 If Python is missing, run:
 ```user@linux$ sudo apt-get install python3```
-
-> **NOTE:** Python 3 will likely become the default version in near future and that specifying Python 2.7 in the `apt-get install` command may become necissary
 
 #### Install the Flask module for Python.
 ```user@linux$ sudo apt-get install python3-flask```
