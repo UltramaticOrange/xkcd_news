@@ -5,6 +5,7 @@ class C(object):
   # used in python
   FEEDS_FILE = 'feeds.yaml'
   SUBS_FILE = 'substitutions.yaml'
+  SUBS_KWARG = 'transformations'
   HTML_TEMPLATE = 'template.html'
 
   # used in yaml conig file

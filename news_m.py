@@ -31,14 +31,20 @@ class news_feed(list):
         self.append(*self._parse(e, xpathConfig[C.XPATH_CONFIG]))
 
   def _parse(self, e, xpathConfig):
-    url = self._safe_xpath(e, xpathConfig[C.XP_URL], xpathConfig[C.NAMESPACE]) or ''
-    title = self._safe_xpath(e, xpathConfig[C.XP_TITLE], xpathConfig[C.NAMESPACE]) or ''
-    body = self._safe_xpath(e, xpathConfig[C.XP_BODY], xpathConfig[C.NAMESPACE]) or ''
-    date = self._safe_xpath(e, xpathConfig[C.XP_DATE], xpathConfig[C.NAMESPACE]) or ''
-    image = self._safe_xpath(e, xpathConfig[C.XP_IMAGE], xpathConfig[C.NAMESPACE]) or ''
+    url = self._safe_xpath(e, xpathConfig[C.XP_URL], xpathConfig[C.NAMESPACE]) or b''
+    title = self._safe_xpath(e, xpathConfig[C.XP_TITLE], xpathConfig[C.NAMESPACE]) or b''
+    body = self._safe_xpath(e, xpathConfig[C.XP_BODY], xpathConfig[C.NAMESPACE]) or b''
+    date = self._safe_xpath(e, xpathConfig[C.XP_DATE], xpathConfig[C.NAMESPACE]) or b''
+    image = self._safe_xpath(e, xpathConfig[C.XP_IMAGE], xpathConfig[C.NAMESPACE]) or b''
+
+    url = url.decode()
+    title = title.decode()
+    body = body.decode()
+    date = date.decode()
+    image = image.decode()
 
     body = C.STRIP_HTML_RE.sub('', body) if xpathConfig[C.STRIP_HTML] else body
-    return url, title, body, date, image
+    return url, title, body, parser.parse(date), image
 
   def _safe_xpath(self, e, xp, ns):
     try:
@@ -60,5 +66,5 @@ class news_feed(list):
       self.url = url
       self.title = self.title
       self.body = self.body
-      self.date = arrow.get(parser.parse(date)) # TODO: _story.__init__: arrow.get and dateutil.parser.parse probably can throw all sorts of errors that need handled.
+      self.date = arrow.get(date) # TODO: _story.__init__: arrow.get and dateutil.parser.parse probably can throw all sorts of errors that need handled.
       self.image = image if not image or image.lower().startswith('http') else 'http://'+image
