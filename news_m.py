@@ -1,70 +1,71 @@
-import re
-import yaml
 import arrow
 import logging
 import requests
-from   lxml import etree
-from   dateutil import parser # I'd rather just import dateutil and call dateutil.parser.parse(), but python has a hard time finding parser. Old-style class, maybe?
-from   news_consts import C, log_messages
+from lxml import etree
+from dateutil import parser
+from news_consts import C, LogMessages
 
-class news_feed(list):
-  def __init__(self, url, xpathConfig):
-    result = None;
-    # TODO: news_feed.__init__: handle authenticated proxy nonsense.
-    try:
-      result = requests.get(url)
-      if result.status_code == 200:
-        root = etree.fromstring(result.content)
-      else:
-        # if we didn't get a solid result, treat it the same as an error.
-        # TODO: news_feed.__init__: see if requests.get() handles redirects for us.
-        raise requests.exceptions.ConnectionError
-    except requests.exceptions.ConnectionError as e:
-      logging.error(log_messages.E_UNABLE_TO_FETCH%(result.status_code if result else '<timeout>', url))
-    except etree.XMLSyntaxError as e:
-      logging.error(log_messages.E_INVALID_XML%url)
-    else:
-      # effectivly skip doing anything if we couldn't get or parse the feed.
-      # TODO: news_feed.__init__: I'm unsure how the rest of the app will behave to an empty (subclassed) list.
-      for e in root.xpath(xpathConfig[C.XPATH_CONFIG][C.ITEM_ELEM]):
-      ### REMINDER! You overrode the append method.
-        self.append(*self._parse(e, xpathConfig[C.XPATH_CONFIG]))
 
-  def _parse(self, e, xpathConfig):
-    url = self._safe_xpath(e, xpathConfig[C.XP_URL], xpathConfig[C.NAMESPACE]) or b''
-    title = self._safe_xpath(e, xpathConfig[C.XP_TITLE], xpathConfig[C.NAMESPACE]) or b''
-    body = self._safe_xpath(e, xpathConfig[C.XP_BODY], xpathConfig[C.NAMESPACE]) or b''
-    date = self._safe_xpath(e, xpathConfig[C.XP_DATE], xpathConfig[C.NAMESPACE]) or b''
-    image = self._safe_xpath(e, xpathConfig[C.XP_IMAGE], xpathConfig[C.NAMESPACE]) or b''
+class NewsFeed(list):
+    def __init__(self, url, xpath_config):
+        result = None
+        # TODO: news_feed.__init__: handle authenticated proxy nonsense.
+        try:
+            result = requests.get(url)
+            if result.status_code == 200:
+                root = etree.fromstring(result.content)
+            else:
+                # if we didn't get a solid result, treat it the same as an error.
+                # TODO: news_feed.__init__: see if requests.get() handles redirects for us.
+                raise requests.exceptions.ConnectionError
+        except requests.exceptions.ConnectionError as e:
+            logging.error(LogMessages.E_UNABLE_TO_FETCH % (result.status_code if result else '<timeout>', url))
+        except etree.XMLSyntaxError as e:
+            logging.error(LogMessages.E_INVALID_XML % url)
+        else:
+            # effectively skip doing anything if we couldn't get or parse the feed.
+            # TODO: news_feed.__init__: I'm unsure how the rest of the app will behave to an empty (subclassed) list.
+            for e in root.xpath(xpath_config[C.XPATH_CONFIG][C.ITEM_ELEM]):
+                # REMINDER! You overrode the append method.
+                self.append(*self._parse(e, xpath_config[C.XPATH_CONFIG]))
 
-    url = url.decode()
-    title = title.decode()
-    body = body.decode()
-    date = date.decode()
-    image = image.decode()
+    def _parse(self, e, xpath_config):
+        url = self._safe_xpath(e, xpath_config[C.XP_URL], xpath_config[C.NAMESPACE]) or b''
+        title = self._safe_xpath(e, xpath_config[C.XP_TITLE], xpath_config[C.NAMESPACE]) or b''
+        body = self._safe_xpath(e, xpath_config[C.XP_BODY], xpath_config[C.NAMESPACE]) or b''
+        date = self._safe_xpath(e, xpath_config[C.XP_DATE], xpath_config[C.NAMESPACE]) or b''
+        image = self._safe_xpath(e, xpath_config[C.XP_IMAGE], xpath_config[C.NAMESPACE]) or b''
 
-    body = C.STRIP_HTML_RE.sub('', body) if xpathConfig[C.STRIP_HTML] else body
-    return url, title, body, parser.parse(date), image
+        url = url.decode()
+        title = title.decode()
+        body = body.decode()
+        date = date.decode()
+        image = image.decode()
 
-  def _safe_xpath(self, e, xp, ns):
-    try:
-      item = e.xpath(xp, namespaces=ns)
-    except etree.XPathEvalError:
-      logging.error(log_messages.E_INVALID_XPATH%(xp, e.tag))
-      return None
+        body = C.STRIP_HTML_RE.sub('', body) if xpath_config[C.STRIP_HTML] else body
+        return url, title, body, parser.parse(date), image
 
-    # TODO: news_feed._safe_xpath: detect and transform text encoding instead of throwing stuff out.
-    return item[0].encode('ascii', 'ignore') if item else None
+    @staticmethod
+    def _safe_xpath(e, xp, ns):
+        try:
+            item = e.xpath(xp, namespaces=ns)
+        except etree.XPathEvalError:
+            logging.error(LogMessages.E_INVALID_XPATH%(xp, e.tag))
+            return None
 
-  # override the append function
-  def append(self, url, title, body, date, image=None):
-    return super(news_feed, self).append(self._story(url, title, body, date, image))
+        # TODO: news_feed._safe_xpath: detect and transform text encoding instead of throwing stuff out.
+        return item[0].encode('ascii', 'ignore') if item else None
+
+    # override the append function
+    def append(self, url, title, body, date, image=None):
+        return super(NewsFeed, self).append(self._Story(url, title, body, date, image))
   
-  ### nested class
-  class _story(object):
-    def __init__(self, url, title, body, date, image):
-      self.url = url
-      self.title = self.title
-      self.body = self.body
-      self.date = arrow.get(date) # TODO: _story.__init__: arrow.get and dateutil.parser.parse probably can throw all sorts of errors that need handled.
-      self.image = image if not image or image.lower().startswith('http') else 'http://'+image
+    # nested class
+    class _Story(object):
+        def __init__(self, url, title, body, date, image):
+            self.url = url
+            self.title = title
+            self.body = body
+            # TODO: _story.__init__: arrow.get and dateutil.parser.parse probably throw errors that need handled.
+            self.date = arrow.get(date)
+            self.image = image if not image or image.lower().startswith('http') else 'http://'+image
