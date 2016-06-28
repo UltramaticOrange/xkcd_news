@@ -13,7 +13,7 @@
 
 # xkcd_news
 ## About xkcd_news:
-The web comic XKCD has made suggested, "Substitutions that make reading the news more fun." This code was written to take-in RSS feeds from news websites, normalize the content, make the suggested substitutions, and present the content in an easy to read layout specified by an HTML template.
+The web comic XKCD has made suggested, "Substitutions that make reading the news more fun." This code was written to take in RSS feeds from news websites, normalize the content, make the suggested substitutions, and present the content in an easy to read layout specified by an HTML template.
 
 ### Substitutions:
 ![alt tag](http://imgs.xkcd.com/comics/substitutions.png)
