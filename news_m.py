@@ -30,17 +30,11 @@ class NewsFeed(list):
                 self.append(*self._parse(e, xpath_config[C.XPATH_CONFIG]))
 
     def _parse(self, e, xpath_config):
-        url = self._safe_xpath(e, xpath_config[C.XP_URL], xpath_config[C.NAMESPACE]) or b''
-        title = self._safe_xpath(e, xpath_config[C.XP_TITLE], xpath_config[C.NAMESPACE]) or b''
-        body = self._safe_xpath(e, xpath_config[C.XP_BODY], xpath_config[C.NAMESPACE]) or b''
-        date = self._safe_xpath(e, xpath_config[C.XP_DATE], xpath_config[C.NAMESPACE]) or b''
-        image = self._safe_xpath(e, xpath_config[C.XP_IMAGE], xpath_config[C.NAMESPACE]) or b''
-
-        url = url.decode()
-        title = title.decode()
-        body = body.decode()
-        date = date.decode()
-        image = image.decode()
+        url = (self._safe_xpath(e, xpath_config[C.XP_URL], xpath_config[C.NAMESPACE]) or b'').decode()
+        title = (self._safe_xpath(e, xpath_config[C.XP_TITLE], xpath_config[C.NAMESPACE]) or b'').decode()
+        body = (self._safe_xpath(e, xpath_config[C.XP_BODY], xpath_config[C.NAMESPACE]) or b'').decode()
+        date = (self._safe_xpath(e, xpath_config[C.XP_DATE], xpath_config[C.NAMESPACE]) or b'').decode()
+        image = (self._safe_xpath(e, xpath_config[C.XP_IMAGE], xpath_config[C.NAMESPACE]) or b'').decode()
 
         body = C.STRIP_HTML_RE.sub('', body) if xpath_config[C.STRIP_HTML] else body
         return url, title, body, parser.parse(date), image
