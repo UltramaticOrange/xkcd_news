@@ -29,31 +29,31 @@ The web comic XKCD has made suggested, "Substitutions that make reading the news
 
 ## Setup:
 ### Setup your environment:
-> **NOTE:** xkcd_news was built on Python 2.7 on a Debian Jessie host. Setup instructions assume a similar environment.
+> **NOTE:** xkcd_news Setup instructions assume Python 3 and Debian Jessie or a similar environment.
 
 #### Verify Python is installed:
-By default, python should already be on your host machine. In the `whereis` command below, note the paths `/usr/bin/python2.7` for Python 2.7 resources and `/usr/bin/python` for the executable.
+By default, python should already be on your host machine. In the `whereis` command below, note the `/usr/bin/python3` for the executable.
 
 ```
-user@linux$ whereis python
-python: /usr/bin/python2.7 /usr/bin/python3.4 /usr/bin/python3.4m /usr/bin/python /etc/python2.7 /etc/python3.4 /etc/python /usr/lib/python2.7 /usr/lib/python3.4 /usr/lib/python2.6 /usr/bin/X11/python2.7 /usr/bin/X11/python3.4 /usr/bin/X11/python3.4m /usr/bin/X11/python /usr/local/lib/python2.7 /usr/local/lib/python3.4 /usr/include/python2.7 /usr/include/python3.4m /usr/share/python /usr/share/man/man1/python.1.gz
+user@linux$ whereis python3
+python3: /usr/bin/python3 /usr/bin/python3.4m /usr/bin/python3.4 /usr/lib/python3 /usr/lib/python3.4 /etc/python3 /etc/python3.4 /usr/local/lib/python3.4 /usr/include/python3.4m /usr/share/python3 /usr/share/man/man1/python3.1.gz
 ```
 
 If Python is missing, run:
-```user@linux$ sudo apt-get install python```
+```user@linux$ sudo apt-get install python3```
 
 > **NOTE:** Python 3 will likely become the default version in near future and that specifying Python 2.7 in the `apt-get install` command may become necissary
 
 #### Install the Flask module for Python.
-```user@linux$ sudo apt-get install python-flask```
+```user@linux$ sudo apt-get install python3-flask```
 
 #### Install the YAML module for Python.
-```user@linux$ sudo apt-get install python-yaml```
+```user@linux$ sudo apt-get install python3-yaml```
 
 #### Install the arrow module for Python.
-```user@linux$ sudo apt-get install python-arrow```
+```user@linux$ sudo apt-get install python3-arrow```
 
-> **NOTE:** Ubuntu and derivatives do not have a python-arrow package available through the APT repos. Running "pip install arrow" should resolve this dependancy.
+> **NOTE:** Ubuntu and derivatives do not have a python3-arrow package available through the APT repos. Running "pip install arrow" should resolve this dependancy.
 
 ### Get the xkcd_news code from GitHub and test the environment:
 ```
@@ -65,7 +65,7 @@ Receiving objects: 100% (117/117), 34.91 KiB | 0 bytes/s, done.
 Resolving deltas: 100% (71/71), done.
 Checking connectivity... done.
 user@linux$ cd xkcd_news
-user@linux$ python news_v.py
+user@linux$ python3 news_v.py
  * Running on http://127.0.0.1:5000/
 ```
 
