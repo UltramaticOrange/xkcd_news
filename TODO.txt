@@ -1,11 +1,8 @@
 
-memoize.py:
+news_consts.py:
 
 
 news_c.py:
-
-
-news_consts.py:
 
 
 news_m.py:
@@ -13,13 +10,13 @@ news_m.py:
 # TODO: news_feed.__init__: see if requests.get() handles redirects for us.
 # TODO: news_feed.__init__: I'm unsure how the rest of the app will behave to an empty (subclassed) list.
 # TODO: news_feed._safe_xpath: detect and transform text encoding instead of throwing stuff out.
-# TODO: _story.__init__: arrow.get and dateutil.parser.parse probably can throw all sorts of errors that need handled.
+# TODO: _story.__init__: arrow.get and dateutil.parser.parse probably throw errors that need handled.
 
 
 news_v.py:
 # TODO: news_[mvc]: write a separte function that does all error handling for requests.get() calls
 # TODO: image64: proxy config
-# TODO: image64: The SSL certs for Debian Jessie haven't been updated since 2014. verify=False is a temporary work-around that shouuld be removed.
+# TODO: image64: The SSL certs for Debian Jessie haven't been updated since 2014. verify=False is temporary.
 # TODO: news: make date an item in consts so it's configurable-ish.
 
 
