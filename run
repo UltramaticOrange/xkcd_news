@@ -2,7 +2,16 @@
 
 WD=$(dirname `readlink -f ./run`)
 cd "$WD"
+
+# build the todo file if nothing has effed up the script.
+if [ -x "gen_todo.sh" ]; then
+  ./gen_todo.sh
+  git add TODO.txt
+  git commit -m "-- auto-refresh TODO.txt --"
+  git push origin master
+fi
 git pull origin master
+# a push and then a pull might be a bad plan. Time will tell.
 
 listenOn="127.0.0.1"
 if [ "$1" ]; then
@@ -18,11 +27,6 @@ fi
 pid=`ps gaxu | grep python3 | grep news_v | grep -v grep | awk '{print $2}'`
 if [ "$pid" ]; then
   kill "$pid"
-fi
-
-# build the todo file if nothing has effed up the script.
-if [ -x "gen_todo.sh" ]; then
-  ./gen_todo.sh
 fi
 
 # ya' know. things and stuff.
