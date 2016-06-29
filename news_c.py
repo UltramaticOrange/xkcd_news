@@ -6,27 +6,27 @@ from news_m import NewsFeed
 from news_consts import C, LogMessages
 
 
+def load_yaml(file_name):
+    try:
+        conf_handle = open(file_name)
+        raw_yaml = conf_handle.read()
+        conf_handle.close()
+    except IOError as e:
+        logging.error(LogMessages.E_MISSING_CONFIG % file_name)
+
+    try:
+        return yaml.load(raw_yaml)
+    except yaml.scanner.ScannerError as e:
+        logging.error(LogMessages.E_MALFORMED_CONFIG % file_name)
+
+
 class XKCDNews(list):
     def __init__(self):
-        news_feeds = self.load_yaml(C.FEEDS_FILE)
-        kwargs = {C.SUBS_KWARG:self.load_yaml(C.SUBS_FILE)}
+        news_feeds = load_yaml(C.FEEDS_FILE)
+        kwargs = {C.SUBS_KWARG:load_yaml(C.SUBS_FILE)}
 
         for url,xpathConfig in news_feeds.items():
             self.append(_XKCDNews(url, xpathConfig, **kwargs))
-
-    def load_yaml(self, file_name):
-        try:
-            conf_handle = open(file_name)
-            raw_yaml = conf_handle.read()
-        except IOError as e:
-            logging.error(LogMessages.E_MISSING_CONFIG%file_name)
-        finally:
-            conf_handle.close()
-
-        try:
-            return yaml.load(raw_yaml)
-        except yaml.scanner.ScannerError as e:
-            logging.error(LogMessages.E_MALFORMED_CONFIG % file_name)
 
 
 # This sub-classing layer might seem unneeded, but I want to be able to 

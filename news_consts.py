@@ -7,9 +7,9 @@ class C(object):
     FEEDS_FILE = 'feeds.yaml'
     SUBS_FILE = 'substitutions.yaml'
     SUBS_KWARG = 'transformations'
-    HTML_TEMPLATE = 'template.html'
+    TEMPLATE_CONFIG_FILE = 'template.yaml'
 
-    # used in yaml conig file
+    # used in feeds.yaml config file
     NAMESPACE = 'namespace'
     STRIP_HTML = 'stripHTML'
     ITEM_ELEM = 'item'
@@ -21,6 +21,11 @@ class C(object):
     XP_IMAGE = 'image'
 
     STRIP_HTML_RE = re.compile('<[^>]+>', flags=re.I)
+
+    # used in template.yaml config file
+    TEMPLATE_FILE = 'templateFile'
+    TEMPLATE_TITLE = 'templateTitle'
+    TEMPLATE_TIMEZONE = 'timezone'
 
     # used in the presentation layer (template.html)
     HTML_TITLE = 'TITLE'

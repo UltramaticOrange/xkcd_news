@@ -5,9 +5,9 @@ import argparse
 from PIL import Image
 from io import BytesIO
 from flask import Flask
-from news_c import XKCDNews
 from base64 import b64encode
 from functools import lru_cache
+from news_c import XKCDNews, load_yaml
 from news_consts import C, LogMessages
 
 app = Flask(__name__)
@@ -72,8 +72,10 @@ def favicon():
 
 @app.route('/')
 def news():
+    template_config = load_yaml(C.TEMPLATE_CONFIG_FILE)
+
     try:
-        template_file = open(C.HTML_TEMPLATE)
+        template_file = open(template_config[C.TEMPLATE_FILE])
         html_template = template_file.read()
         template_file.close()
         if not html_template:
@@ -88,7 +90,7 @@ def news():
     for site in news_obj:
         for story in site:
             # TODO: news: make date an item in consts so it's configurable-ish.
-            normalized_date = story.date.to('America/Los_Angeles')
+            normalized_date = story.date.to(template_config[C.TEMPLATE_TIMEZONE])
             body = C.HTML_DIV.format(**{C.CLASS:C.STORY_BODY, C.CONTENT:story.body})
             title = C.HTML_DIV.format(**{C.CLASS:C.STORY_TITLE, C.CONTENT:story.title})
             title = C.HTML_A.format(**{C.CLASS:C.STORY_TITLE, C.URL:story.url, C.CONTENT:title})
@@ -107,10 +109,10 @@ def news():
         html += ''.join(news_by_date[key])
 
     try:
-        final_html = html_template.format(**{C.HTML_BODY:html, C.HTML_TITLE:'Top Headlines, a la XKCD!'})
+        final_html = html_template.format(**{C.HTML_BODY:html, C.HTML_TITLE:template_config[C.TEMPLATE_TITLE]})
     except KeyError:
         logging.error(LogMessages.E_TEMPLATE_MALFORMED)
-        final_html = C.HTML_FALLBACK.format(**{C.HTML_BODY:html, C.HTML_TITLE:'Top Headlines, a la XKCD!'})
+        final_html = C.HTML_FALLBACK.format(**{C.HTML_BODY:html, C.HTML_TITLE:template_config[C.TEMPLATE_TITLE]})
 
     return final_html
 
