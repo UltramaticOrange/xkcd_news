@@ -1,12 +1,21 @@
 #!/bin/bash
 
+WD=$(dirname `readlink -f ./run`)
+cd "$WD"
+git pull origin master
+
 listenOn="127.0.0.1"
 if [ "$1" ]; then
   listenOn="$1"
 fi
 
+port="5000"
+if [ "$2" ]; then
+  port="$2"
+fi
+
 # kill the old process first (if found).
-pid=`ps gaxu | grep python | grep news_v | grep -v grep | awk '{print $2}'`
+pid=`ps gaxu | grep python3 | grep news_v | grep -v grep | awk '{print $2}'`
 if [ "$pid" ]; then
   kill "$pid"
 fi
@@ -17,4 +26,9 @@ if [ -x "gen_todo.sh" ]; then
 fi
 
 # ya' know. things and stuff.
-nohup python news_v.py -l "$listenOn" 2>&1 >> news.log &
+nohup python3 news_v.py -l "$listenOn" 2>&1 >> news.log &
+sleep 1
+
+#refresh the image cache
+#using localhost instead of $listenOn because user might specify 0.0.0.0
+curl "http://localhost:$port" 2>&1 > /dev/null
