@@ -29,7 +29,7 @@ The web comic XKCD has made suggested, "Substitutions that make reading the news
 
 ## Setup:
 ### Setup your environment:
-> **NOTE:** xkcd_news Setup instructions assume Python 3 and Debian Jessie or a similar environment.
+> **NOTE:** xkcd_news Setup instructions assume a Python version >=3.4.2 on Debian Jessie or a similar environment.
 
 #### Verify Python is installed:
 By default, python should already be on your host machine. In the `whereis` command below, note the `/usr/bin/python3`.
@@ -37,6 +37,8 @@ By default, python should already be on your host machine. In the `whereis` comm
 ```
 user@linux$ whereis python3
 python3: /usr/bin/python3 /usr/bin/python3.4m /usr/bin/python3.4 /usr/lib/python3 /usr/lib/python3.4 /etc/python3 /etc/python3.4 /usr/local/lib/python3.4 /usr/include/python3.4m /usr/share/python3 /usr/share/man/man1/python3.1.gz
+user@linux$ python3 -V
+Python 3.4.2
 ```
 
 If Python is missing, run:
@@ -51,9 +53,9 @@ If Python is missing, run:
 #### Install the arrow module for Python.
 ```user@linux$ sudo apt-get install python3-arrow```
 
-> **NOTE:** Ubuntu and derivatives do not have a python3-arrow package available through the APT repos. Running "pip install arrow" should resolve this dependancy.
+> **NOTE:** Ubuntu and derivatives do not have a python3-arrow package available through the APT repos. Running "python3 -m pip install arrow" should resolve this dependancy.
 
-### Get the xkcd_news code from GitHub and test the environment:
+### Get the xkcd_news code from GitHub:
 ```
 user@linux$ git clone https://github.com/UltramaticOrange/xkcd_news.git
 Cloning into 'xkcd_news'...
@@ -62,7 +64,18 @@ remote: Total 117 (delta 0), reused 0 (delta 0), pack-reused 117
 Receiving objects: 100% (117/117), 34.91 KiB | 0 bytes/s, done.
 Resolving deltas: 100% (71/71), done.
 Checking connectivity... done.
-user@linux$ cd xkcd_news
+```
+
+### Get the rss_parse module from GitHub:
+```
+user@linux$ cd xkcd_news/
+user@linux$ git clone https://github.com/dev-dull/rss_parse.git
+Cloning into 'rss_parse'...
+remote: Counting objects: 5, done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 5 (delta 0), reused 5 (delta 0), pack-reused 0
+Unpacking objects: 100% (5/5), done.
+Checking connectivity... done.
 user@linux$ python3 news_v.py
  * Running on http://127.0.0.1:5000/
 ```

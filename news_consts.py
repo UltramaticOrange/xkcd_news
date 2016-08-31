@@ -1,6 +1,3 @@
-import re
-
-
 # C is for constants ...and that's good enough for me.
 class C(object):
     # used in python
@@ -8,19 +5,6 @@ class C(object):
     SUBS_FILE = 'substitutions.yaml'
     SUBS_KWARG = 'transformations'
     TEMPLATE_CONFIG_FILE = 'template.yaml'
-
-    # used in feeds.yaml config file
-    NAMESPACE = 'namespace'
-    STRIP_HTML = 'stripHTML'
-    ITEM_ELEM = 'item'
-    XPATH_CONFIG = 'xpathParse'
-    XP_TITLE = 'title'
-    XP_URL = 'url'
-    XP_BODY = 'body'
-    XP_DATE = 'date'
-    XP_IMAGE = 'image'
-
-    STRIP_HTML_RE = re.compile('<[^>]+>', flags=re.I)
 
     # used in template.yaml config file
     TEMPLATE_FILE = 'templateFile'
@@ -58,15 +42,9 @@ class C(object):
 class LogMessages(object):
     E_MISSING_CONFIG = 'Missing or unreadable configuration file: %s'
     E_MALFORMED_CONFIG = 'Bad syntax in configuration file: %s'
-
-    E_UNABLE_TO_FETCH = 'Unable to fetch URL. Got status %s: %s'
-  
-    E_INVALID_XML = 'Could not parse XML from feed: %s'
-    E_INVALID_XPATH = 'Invalid xpath %s while processing tag %s'
-
     E_CORRUPT_IMAGE = 'Could not process image file from web: %s'
     E_UNKNOWN_IMAGE_TYPE = 'Unknown image type. Cannot process further. URL: %s'
-
     E_TEMPLATE_MALFORMED = '''Template file %s was badly formed. Reverted to minimal formatting.\n'''\
                            '''Did you use single curly braces (i.e. { and }) in your CSS instead of double?'''
+    E_UNABLE_TO_FETCH = 'Unable to fetch URL. Got status %s: %s'
     W_TEMPLATE_UNAVAILABLE = 'Template file %s could not be read.'

@@ -2,7 +2,7 @@ import re
 import yaml
 import arrow
 import logging
-from news_m import NewsFeed
+from rss_parse.rss_parse import RSSParser
 from news_consts import C, LogMessages
 
 
@@ -11,11 +11,9 @@ def load_yaml(file_name):
         conf_handle = open(file_name)
         raw_yaml = conf_handle.read()
         conf_handle.close()
+        return yaml.load(raw_yaml)
     except IOError as e:
         logging.error(LogMessages.E_MISSING_CONFIG % file_name)
-
-    try:
-        return yaml.load(raw_yaml)
     except yaml.scanner.ScannerError as e:
         logging.error(LogMessages.E_MALFORMED_CONFIG % file_name)
 
@@ -29,17 +27,17 @@ class XKCDNews(list):
             self.append(_XKCDNews(url, xpathConfig, **kwargs))
 
 
-# This sub-classing layer might seem unneeded, but I want to be able to 
-# reuse news_m.news_feed elsewhere without having to modify it.
-class _XKCDNews(NewsFeed):
+class _XKCDNews(RSSParser):
     def __init__(self, *args, **kwargs):
         self._transformations = kwargs.pop(C.SUBS_KWARG)
-        super(_XKCDNews, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def append(self, url, title, body, date, image=None):
-        # Note how 'super' is being used here: self is a subclass of news_feed and news_feed is a
+        # Note how 'super' is being used here: self is a subclass of RSSParser and RSSParser is a
         # subclass of list. list.append() is needed, so in a sense, we're doing super(super())
-        return super(NewsFeed, self).append(self._Story(url, title, body, date, image, self._transformations))
+        # Think about it as casting our _XKCDNews object into an RSSParser object.
+        # Hopefully that last one will make sense because I'm tired of breaking this bit.
+        super(RSSParser, self).append(self._Story(url, title, body, date, image, self._transformations))
 
     # nested class
     class _Story(object):

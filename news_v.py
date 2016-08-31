@@ -12,7 +12,7 @@ from news_consts import C, LogMessages
 
 app = Flask(__name__)
 
-# TODO: news_[mvc]: write a separte function that does all error handling for requests.get() calls
+# TODO: news_[mvc]: write a separate function that does all error handling for requests.get() calls
 
 
 @lru_cache(maxsize=256)

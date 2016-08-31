@@ -34,18 +34,6 @@ https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&topic=snc&num=10&output=rs
     date: .//pubDate/text()
     image: re:match(.//description/text(), 't[0-9].gstatic.com/images\?[^\">]+', 'g')/text()
 
-http://rss.cnn.com/rss/cnn_topstories.rss:
-  xpathParse:
-    stripHTML: true
-    item: '/rss/channel/item'
-    namespace:
-      yahoo: http://search.yahoo.com/mrss/
-    title: .//title/text()
-    url: .//link/text()
-    body: .//description/text()
-    date: .//pubDate/text()
-    image: .//yahoo:thumbnail/@url
-
 http://feeds.bbci.co.uk/news/rss.xml?edition=us:
   xpathParse:
     stripHTML: true
@@ -117,3 +105,27 @@ http://www.jpl.nasa.gov/multimedia/rss/news.xml:
     body: .//description/text()
     date: .//pubDate/text()
     image: ((re:match(.//description/text(), 'www.jpl.nasa.gov/images/[^\">]+', 'g')/text()) | /rss/channel/image/url/text())[1]
+
+http://feeds.washingtonpost.com/rss/national:
+  xpathParse:
+    stripHTML: false
+    item: '/rss/channel/item'
+    namespace:
+      yahoo: http://search.yahoo.com/mrss/
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    date: .//pubDate/text()
+    image: .//yahoo:thumbnail/@url
+
+http://rss.nytimes.com/services/xml/rss/nyt/InternationalHome.xml:
+  xpathParse:
+    stripHTML: true
+    item: '/rss/channel/item'
+    namespace:
+      yahoo: http://search.yahoo.com/mrss/
+    title: .//title/text()
+    url: .//link/text()
+    body: .//description/text()
+    date: .//pubDate/text()
+    image: (.//yahoo:content/@url | /rss/channel/image/url/text())[last()]
