@@ -69,12 +69,14 @@ Checking connectivity... done.
 ### Get the rss_parse module from PyPI:
 #### If you'll be running xkcd_news with user permissions (most secure):
 ```
-user@linux$ pip install rss_parse --user
+user@linux$ python3 -m pip install rss_parse --user
 ```
+
+> **NOTE:** rss_parse is only available for Python versions >= 3.4, so "pip install rss_parse --user" should work just the same.
 
 #### If you're lazy (or having trouble. This is more fool-proof):
 ```
-user@linux$ sudo pip install rss_parse
+user@linux$ sudo python3 -m pip install rss_parse
 ```
 
 ### Testing that it works:
