@@ -66,16 +66,20 @@ Resolving deltas: 100% (71/71), done.
 Checking connectivity... done.
 ```
 
-### Get the rss_parse module from GitHub:
+### Get the rss_parse module from PyPI:
+#### If you'll be running xkcd_news with user permissions (most secure):
 ```
-user@linux$ cd xkcd_news/
-user@linux$ git clone https://github.com/dev-dull/rss_parse.git
-Cloning into 'rss_parse'...
-remote: Counting objects: 5, done.
-remote: Compressing objects: 100% (5/5), done.
-remote: Total 5 (delta 0), reused 5 (delta 0), pack-reused 0
-Unpacking objects: 100% (5/5), done.
-Checking connectivity... done.
+user@linux$ pip install rss_parse --user
+```
+
+#### If you're lazy (or having trouble. This is more fool-proof):
+```
+user@linux$ sudo pip install rss_parse
+```
+
+### Testing that it works:
+```
+user@linux$ cd xkcd_news
 user@linux$ python3 news_v.py
  * Running on http://127.0.0.1:5000/
 ```
