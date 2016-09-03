@@ -3,16 +3,6 @@
 WD=$(dirname `readlink -f ./run`)
 cd "$WD"
 
-# build the todo file if nothing has effed up the script.
-if [ -x "gen_todo.sh" ]; then
-  ./gen_todo.sh
-  git add TODO.txt
-  git commit -m "-- auto-refresh TODO.txt --"
-  git push origin master
-fi
-git pull origin master
-# a push and then a pull might be a bad plan. Time will tell.
-
 listenOn="127.0.0.1"
 if [ "$1" ]; then
   listenOn="$1"
@@ -30,9 +20,12 @@ if [ "$pid" ]; then
 fi
 
 # ya' know. things and stuff.
-nohup python3 news_v.py -l "$listenOn" 2>&1 >> news.log &
+# contrary to my usual style, no quotes around $port because obvious reason is obvious.
+# Or, more helpfully, the shell/python should NEVER look at a number and think, "oh, that's two things."
+nohup python3 news_v.py -l "$listenOn" -p $port 2>&1 >> news.log &
 sleep 1
 
 #refresh the image cache
 #using localhost instead of $listenOn because user might specify 0.0.0.0
+echo "Updating local image cache. This typically takes 30-40sec depending on CPU and network connectivity."
 curl "http://localhost:$port" 2>&1 > /dev/null

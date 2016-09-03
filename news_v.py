@@ -124,12 +124,19 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--scr', dest='noDaemon', default=False,
                         action='store_true', help='Output to screen (for debugging)')
-    parser.add_argument('-l', '--listen-on', dest='hostIP', default='127.0.0.1',
+    parser.add_argument('-l', '--listen-on', dest='host_ip', default='127.0.0.1',
                         help='The IP on the host the service should listen on (e.g. 192.168.1.100).')
+    parser.add_argument('-p', '--port', dest='port', default='5000',
+                        help='The port the service should listen on (e.g. 5000).')
     args = parser.parse_args()
 
     if args.noDaemon:
         main()
     else:
-        app.run(host=args.hostIP, threaded=True)
+        # Some version of python+flask will int the port for us, some will call us a fat-fingered nilly for handing over a string
+        try:
+          port = int(args.port)
+          app.run(host=args.host_ip, port=port, threaded=True)
+        except ValueError as e:
+          logging.error("%s isn't a real port, you fat-fingered nilly!"%args.port)
 
